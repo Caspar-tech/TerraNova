@@ -5,7 +5,9 @@ from .forms import UserRegisterForm
 # Main-page render funtcion
 def main(request):
     context = {
-         "A": "B"        
+        "A": "B",
+        "row": range(5),
+        "column": range(6),
     }
     return render(request, 'Game/main.html', context)
 

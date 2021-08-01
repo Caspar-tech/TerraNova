@@ -10,4 +10,15 @@
             <td>B2</td>
         </tr>
     </table>
+
+    <table>
+        {% for r in row %}
+            <tr>
+                {% for c in column %}
+                    <td>{{ r }}</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </table>
+
 {% endblock content %}
