@@ -1,0 +1,7 @@
+This project has:
+- Basic project and app set up
+- base html + navbar
+- working register/login/logout
+- empty css sheet
+
+The app-name = Game --> change this troughout the code to your app name
