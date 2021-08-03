@@ -1,15 +1,19 @@
 from django.shortcuts import render, redirect
 from .forms import UserRegisterForm 
-#from .models import <name database>
+from .models import Square
+from django.views.generic import ListView
 
-# Main-page render funtcion
-def main(request):
-    context = {
-        "A": "B",
-        "row": range(5),
-        "column": range(6),
-    }
-    return render(request, 'Game/main.html', context)
+# Main-page render function
+class MainView(ListView):
+    model = Square
+    template_name = "Game/main.html"
+    context_object_name = "Square"
+
+    # context = {
+    #     "row": range(3),
+    #     "column": range(3),
+    # }
+    # return render(request, 'Game/main.html', context)
 
 #Register-page render function
 def register(request):

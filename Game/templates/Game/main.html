@@ -1,24 +1,20 @@
 {% extends "Game/base.html" %}
 {% block content%}
-    <table>
-        <tr>
-            <td>A1</td>
-            <td>A2</td>
-        </tr>
-        <tr>
-            <td>B1</td>
-            <td>B2</td>
-        </tr>
-    </table>
+
+<!--    {% for n in Square %}-->
+<!--        <p>{{ n.Row }}x{{ n.Column }}</p>-->
+<!--    {% endfor %}-->
 
     <table>
-        {% for r in row %}
-            <tr>
-                {% for c in column %}
-                    <td>{{ r }}</td>
-                {% endfor %}
-            </tr>
-        {% endfor %}
+        {% with rows=[1,2,3] columns=[1,2,3] %}
+            {% for r in rows %}
+                <tr>
+                    {% for c in columns %}
+                        <td>{{ r }}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        {% endwith %}
     </table>
 
 {% endblock content %}
