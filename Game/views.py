@@ -9,11 +9,20 @@ class MainView(ListView):
     template_name = "Game/main.html"
     context_object_name = "Square"
 
-    # context = {
-    #     "row": range(3),
-    #     "column": range(3),
-    # }
-    # return render(request, 'Game/main.html', context)
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        # Add in QuerySets of extra context
+        Row = 3
+        Column = 3
+
+        context['Row'] = range(Row)
+        context['Column'] = range(Column)
+
+        for r in range(Row):
+            context['Row{}'.format(r)] = Square.objects.filter(Row=r).order_by("Column")
+
+        return context
 
 #Register-page render function
 def register(request):

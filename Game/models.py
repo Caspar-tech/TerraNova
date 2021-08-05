@@ -7,4 +7,4 @@ class Square(models.Model):
     Terrain = models.TextField(default="Grass")
 
     def __str__(self):
-        return self.Terrain
+        return str(self.Row) + "x" + str(self.Column)
