@@ -18,9 +18,7 @@ class MainView(ListView):
 
         context['Row'] = range(Row)
         context['Column'] = range(Column)
-
-        for r in range(Row):
-            context['Row{}'.format(r)] = Square.objects.filter(Row=r).order_by("Column")
+        context['Try'] = [0,1,2,3,4,5,6,7,8]
 
         return context
 

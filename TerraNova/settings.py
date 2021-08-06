@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'Game.apps.GameConfig',
+    'mathfilters'
 ]
 
 MIDDLEWARE = [
