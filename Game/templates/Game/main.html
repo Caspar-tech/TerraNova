@@ -8,13 +8,11 @@
             <tr>
                 {% for c in Column %}
                     {% with n=r|mul:3|add:c %}
-                        <td>{{ n }}{{ Try.n }}</td>
+                        <td>{{ n }}{{ Square_terrain|index:n }}</td>
                     {% endwith %}
                 {% endfor %}
             </tr>
         {% endfor %}
     </table>
-
-    {{ Try|index:3 }}
 
 {% endblock content %}

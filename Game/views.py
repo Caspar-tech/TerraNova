@@ -18,7 +18,11 @@ class MainView(ListView):
 
         context['Row'] = range(Row)
         context['Column'] = range(Column)
-        context['Try'] = [0,1,2,3,4,5,6,7,8]
+
+        Square_terrain = []
+        for i in Square.objects.all():
+            Square_terrain.append(i.Terrain)
+        context['Square_terrain'] = Square_terrain
 
         return context
 
