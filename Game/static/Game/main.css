@@ -6,3 +6,8 @@ table {
 td {
    border: 1px solid black;
 }
+
+.grass {
+    background-color: green;
+    color: red;
+}

@@ -3,12 +3,18 @@
 {% load mathfilters %}
 {% load index %}
 
+<style>
+    .Grass {
+    background-color: green;
+    }
+</style>
+
     <table>
         {% for r in Row %}
             <tr>
                 {% for c in Column %}
                     {% with n=r|mul:3|add:c %}
-                        <td>{{ n }}{{ Square_terrain|index:n }}</td>
+                        <td class={{ Square_terrain|index:n }}>{{ n }}{{ Square_terrain|index:n }}</td>
                     {% endwith %}
                 {% endfor %}
             </tr>
