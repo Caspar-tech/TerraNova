@@ -7,12 +7,16 @@
     .Grass {
     background-color: green;
     }
+
+    .Water {
+    background-color: blue;
+    }
 </style>
 
     <table>
-        {% for r in Row %}
+        {% for r in Rows %}
             <tr>
-                {% for c in Column %}
+                {% for c in Columns %}
                     {% with n=r|mul:3|add:c %}
                         <td class={{ Square_terrain|index:n }}>{{ n }}{{ Square_terrain|index:n }}</td>
                     {% endwith %}
@@ -20,5 +24,10 @@
             </tr>
         {% endfor %}
     </table>
+
+    <form method="POST">
+        {% csrf_token %}
+        <input type="Submit" name="Create" value="Create">
+    </form>
 
 {% endblock content %}

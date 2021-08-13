@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .forms import UserRegisterForm 
-from .models import Square
+from .models import Square, Main
 from django.views.generic import ListView
 
 # Main-page render function
@@ -13,11 +13,11 @@ class MainView(ListView):
         # Call the base implementation first to get a context
         context = super().get_context_data(**kwargs)
         # Add in QuerySets of extra context
-        Row = 3
-        Column = 3
+        Rows = Main.objects.get(Name="Game").Rows
+        Columns = Main.objects.get(Name="Game").Columns
 
-        context['Row'] = range(Row)
-        context['Column'] = range(Column)
+        context['Rows'] = range(Rows)
+        context['Columns'] = range(Columns)
 
         Square_terrain = []
         for i in Square.objects.all():
@@ -25,6 +25,11 @@ class MainView(ListView):
         context['Square_terrain'] = Square_terrain
 
         return context
+
+    def post(self, request, *args, **kwargs):
+        if request.POST.get('Create') == 'Create':
+            return redirect('login')
+        return super().get(request, *args, **kwargs)
 
 #Register-page render function
 def register(request):
