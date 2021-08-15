@@ -3,6 +3,10 @@ from .forms import UserRegisterForm
 from .models import Square, Main
 from django.views.generic import ListView
 
+from .logic import (
+    Addup,
+)
+
 # Main-page render function
 class MainView(ListView):
     model = Square
@@ -19,6 +23,8 @@ class MainView(ListView):
         context['Rows'] = range(Rows)
         context['Columns'] = range(Columns)
 
+        context['Testnumber'] = Main.objects.get(Name="Game").Testnumber
+
         Square_terrain = []
         for i in Square.objects.all():
             Square_terrain.append(i.Terrain)
@@ -28,7 +34,7 @@ class MainView(ListView):
 
     def post(self, request, *args, **kwargs):
         if request.POST.get('Create') == 'Create':
-            return redirect('login')
+            Addup(request.POST)
         return super().get(request, *args, **kwargs)
 
 #Register-page render function

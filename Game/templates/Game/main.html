@@ -25,9 +25,16 @@
         {% endfor %}
     </table>
 
+    <br>
     <form method="POST">
         {% csrf_token %}
+        <p>Rows:</p>
+        <input type="number" name="Rows"><br>
+        <p>Columns:</p>
+        <input type="number" name="Columns"><br>
         <input type="Submit" name="Create" value="Create">
     </form>
+
+    <p>{{ Testnumber }}</p>
 
 {% endblock content %}

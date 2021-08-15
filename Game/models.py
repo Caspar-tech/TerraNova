@@ -13,6 +13,7 @@ class Main(models.Model):
     Name = models.TextField(default="Game")
     Rows = models.IntegerField(default=3)
     Columns = models.IntegerField(default=3)
+    Testnumber = models.IntegerField(default=0)
 
     def __str__(self):
         return str(self.Name)
