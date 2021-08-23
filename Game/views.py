@@ -20,11 +20,12 @@ class MainView(ListView):
         Rows = Main.objects.get(Name="Game").Rows
         Columns = Main.objects.get(Name="Game").Columns
 
-        context['Rows'] = range(Rows)
-        context['Columns'] = range(Columns)
+        context['RowsRange'] = range(Rows)
+        context['ColumnsRange'] = range(Columns)
+        context['Columns'] = Columns
 
-        context['Testnumber'] = Main.objects.get(Name="Game").Testnumber
-
+        # We run trough all the squares in the database
+        # We create a list of all terrain types, so we can iterate over them in the html template
         Square_terrain = []
         for i in Square.objects.all():
             Square_terrain.append(i.Terrain)

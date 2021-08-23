@@ -13,17 +13,24 @@
     }
 </style>
 
+    <!--    We use the ranges created in the views-page to go from square to square
+    Every square we fill with the terrain from the terrain list we made in views
+    We use the templatetag "mathfilters" to be able to multiple within the html code
+    We use the templatetag "index" to call all the terrains from the list-->
+
     <table>
-        {% for r in Rows %}
+        {% for r in RowsRange %}
             <tr>
-                {% for c in Columns %}
-                    {% with n=r|mul:3|add:c %}
+                {% for c in ColumnsRange %}
+                    {% with n=r|mul:Columns|add:c %}
                         <td class={{ Square_terrain|index:n }}>{{ n }}{{ Square_terrain|index:n }}</td>
                     {% endwith %}
                 {% endfor %}
             </tr>
         {% endfor %}
     </table>
+
+    <!-- This forms takes the requested number of rows and columns and puts it trough to views >> logic >> create.py -->
 
     <br>
     <form method="POST">
@@ -34,7 +41,5 @@
         <input type="number" name="Columns"><br>
         <input type="Submit" name="Create" value="Create">
     </form>
-
-    <p>{{ Testnumber }}</p>
 
 {% endblock content %}
