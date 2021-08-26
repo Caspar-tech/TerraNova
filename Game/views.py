@@ -4,7 +4,8 @@ from .models import Square, Main
 from django.views.generic import ListView
 
 from .logic import (
-    Addup,
+    Newgrid,
+    Discover,
 )
 
 # Main-page render function
@@ -26,16 +27,24 @@ class MainView(ListView):
 
         # We run trough all the squares in the database
         # We create a list of all terrain types, so we can iterate over them in the html template
+        # Only discovered tiles reveal their terrain, else "undiscovered" is added to the list
         Square_terrain = []
         for i in Square.objects.all():
-            Square_terrain.append(i.Terrain)
+            if i.Discovered == True:
+                Square_terrain.append(i.Terrain)
+            else:
+                Square_terrain.append("Undiscovered")
         context['Square_terrain'] = Square_terrain
 
         return context
 
     def post(self, request, *args, **kwargs):
         if request.POST.get('Create') == 'Create':
-            Addup(request.POST)
+            # Creates a new grid, using given Rows and Columns
+            Newgrid(request.POST)
+        elif request.POST.get('Square') != "":
+            # Sets the clicked tile from undiscovered to discovered (if a neighbour is discovered)
+            Discover(int(request.POST.get('Square')))
         return super().get(request, *args, **kwargs)
 
 #Register-page render function

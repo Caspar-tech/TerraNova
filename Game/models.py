@@ -2,9 +2,11 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class Square(models.Model):
+    Number = models.IntegerField(default=0)
     Row = models.IntegerField(default=0)
     Column = models.IntegerField(default=0)
     Terrain = models.TextField(default="Grass")
+    Discovered = models.BooleanField(default=False)
 
     def __str__(self):
         return str(self.Row) + "x" + str(self.Column)

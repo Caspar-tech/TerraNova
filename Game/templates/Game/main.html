@@ -11,6 +11,10 @@
     .Water {
     background-color: blue;
     }
+
+    .Undiscovered {
+    background-color: black;
+    }
 </style>
 
     <!--    We use the ranges created in the views-page to go from square to square
@@ -18,18 +22,20 @@
     We use the templatetag "mathfilters" to be able to multiple within the html code
     We use the templatetag "index" to call all the terrains from the list-->
 
-    <table>
-        {% for r in RowsRange %}
-            <tr>
-                {% for c in ColumnsRange %}
-                    {% with n=r|mul:Columns|add:c %}
-                        <td class={{ Square_terrain|index:n }}>{{ n }}{{ Square_terrain|index:n }}</td>
-                    {% endwith %}
-                {% endfor %}
-            </tr>
-        {% endfor %}
-    </table>
-
+    <form method="POST">
+        {% csrf_token %}
+        <table>
+            {% for r in RowsRange %}
+                <tr>
+                    {% for c in ColumnsRange %}
+                        {% with n=r|mul:Columns|add:c %}
+                            <td><input class={{ Square_terrain|index:n }} type="Submit" name="Square" value={{n}}></td>
+                        {% endwith %}
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </table>
+    </form>
     <!-- This forms takes the requested number of rows and columns and puts it trough to views >> logic >> create.py -->
 
     <br>
