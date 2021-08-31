@@ -17,6 +17,9 @@ class MainView(ListView):
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
         context = super().get_context_data(**kwargs)
+
+        context['Main'] = Main.objects.get(Name="Game")
+
         # Add in QuerySets of extra context
         Rows = Main.objects.get(Name="Game").Rows
         Columns = Main.objects.get(Name="Game").Columns

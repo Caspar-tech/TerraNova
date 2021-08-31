@@ -4,48 +4,82 @@
 {% load index %}
 
 <style>
+    .Topnav {
+        background-color: lightgrey;
+    }
+
+    .row:after {
+          content: "";
+          display: table;
+          clear: both;
+    }
+
+    .ColumnLeft {
+        float: left;
+        width: 75%;
+        background-color: yellow;
+    }
+
+    .ColumnRight {
+        float: left;
+        width: 25%;
+        background-color: blue;
+    }
+
     .Grass {
-    background-color: green;
+        background-color: green;
     }
 
     .Water {
-    background-color: blue;
+        background-color: blue;
     }
 
     .Undiscovered {
-    background-color: black;
+        background-color: black;
     }
 </style>
 
-    <!--    We use the ranges created in the views-page to go from square to square
-    Every square we fill with the terrain from the terrain list we made in views
-    We use the templatetag "mathfilters" to be able to multiple within the html code
-    We use the templatetag "index" to call all the terrains from the list-->
+<div class="Topnav">
+    Money: {{ Main.Money }}  Year: {{ Main.Year }}</p>
+</div>
 
-    <form method="POST">
-        {% csrf_token %}
-        <table>
-            {% for r in RowsRange %}
-                <tr>
-                    {% for c in ColumnsRange %}
-                        {% with n=r|mul:Columns|add:c %}
-                            <td><input class={{ Square_terrain|index:n }} type="Submit" name="Square" value={{n}}></td>
-                        {% endwith %}
-                    {% endfor %}
-                </tr>
-            {% endfor %}
-        </table>
-    </form>
-    <!-- This forms takes the requested number of rows and columns and puts it trough to views >> logic >> create.py -->
+<!--    We use the ranges created in the views-page to go from square to square
+Every square we fill with the terrain from the terrain list we made in views
+We use the templatetag "mathfilters" to be able to multiple within the html code
+We use the templatetag "index" to call all the terrains from the list-->
+<div class="row">
+    <div class="ColumnLeft">
 
-    <br>
-    <form method="POST">
-        {% csrf_token %}
-        <p>Rows:</p>
-        <input type="number" name="Rows"><br>
-        <p>Columns:</p>
-        <input type="number" name="Columns"><br>
-        <input type="Submit" name="Create" value="Create">
-    </form>
+        <form method="POST">
+            {% csrf_token %}
+            <table>
+                {% for r in RowsRange %}
+                    <tr>
+                        {% for c in ColumnsRange %}
+                            {% with n=r|mul:Columns|add:c %}
+                                <td><input class={{ Square_terrain|index:n }} type="Submit" name="Square" value={{n}}></td>
+                            {% endwith %}
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </table>
+        </form>
+        <!-- This forms takes the requested number of rows and columns and puts it trough to views >> logic >> create.py -->
 
+        <br>
+        <form method="POST">
+            {% csrf_token %}
+            <p>Rows:</p>
+            <input type="number" name="Rows"><br>
+            <p>Columns:</p>
+            <input type="number" name="Columns"><br>
+            <input type="Submit" name="Create" value="Create">
+        </form>
+
+    </div><!-- ColumnLeft -->
+
+    <div class="ColumnRight">
+        Hello
+    </div><!-- ColumnRight -->
+</div><!-- "row"-->
 {% endblock content %}
