@@ -1,3 +1,8 @@
+body {
+    background-color: black;
+    font-family: Arial;
+}
+
 table {
     border: 1px solid black;
     border-collapse: collapse;
@@ -5,9 +10,4 @@ table {
 
 td {
    border: 1px solid black;
-}
-
-.grass {
-    background-color: green;
-    color: red;
 }

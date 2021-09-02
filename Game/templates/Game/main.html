@@ -3,9 +3,19 @@
 {% load mathfilters %}
 {% load index %}
 
+<!-- https://www.colorhunt.co/palette/5f939a3a6351a0937df2edd7 -->
 <style>
+    body {
+        background-color: #F2EDD7;
+        color: #3A6351;
+        font-family: Arial;
+    }
+
     .Topnav {
-        background-color: lightgrey;
+        background-color: #A0937D;
+        border-style: solid;
+        border-width: 2px;
+        padding: 15px;
     }
 
     .row:after {
@@ -16,14 +26,36 @@
 
     .ColumnLeft {
         float: left;
-        width: 75%;
-        background-color: yellow;
+        width: 60%;
+        padding: 15px;
+        margin-top: 15px;
+        margin-right: 7px;
+        margin-bottom: 15px;
     }
 
     .ColumnRight {
-        float: left;
+        float: right;
         width: 25%;
-        background-color: blue;
+        height: 500px;
+        padding: 15px;
+        border-style: solid;
+        border-width: 2px;
+        margin-top: 15px;
+        margin-left: 7px;
+        margin-bottom: 15px;
+        margin-right: 15px;
+        background-color: #A0937D;
+    }
+
+    .Toolbox {
+        height: 275px;
+    }
+
+    .Infobox {
+        background-color: #F2EDD7;
+        color: black;
+        height: 220px;
+        padding: 5px;
     }
 
     .Grass {
@@ -39,8 +71,10 @@
     }
 </style>
 
+<h1>Terra Nova</h1>
+
 <div class="Topnav">
-    Money: {{ Main.Money }}  Year: {{ Main.Year }}</p>
+    Money: {{ Main.Money }}  Year: {{ Main.Year }}
 </div>
 
 <!--    We use the ranges created in the views-page to go from square to square
@@ -79,7 +113,14 @@ We use the templatetag "index" to call all the terrains from the list-->
     </div><!-- ColumnLeft -->
 
     <div class="ColumnRight">
-        Hello
+        <div class="Toolbox">
+            --Toolbox--
+        </div>
+
+        <div class="Infobox">
+            >Hello<br>
+            >Second line Second line Second line Second line Second line
+        </div>
     </div><!-- ColumnRight -->
 </div><!-- "row"-->
 {% endblock content %}
