@@ -118,8 +118,9 @@ We use the templatetag "index" to call all the terrains from the list-->
         </div>
 
         <div class="Infobox">
-            >Hello<br>
-            >Second line Second line Second line Second line Second line
+            {% for line in Infobox %}
+                >{{ line }} <br>
+            {% endfor %}
         </div>
     </div><!-- ColumnRight -->
 </div><!-- "row"-->

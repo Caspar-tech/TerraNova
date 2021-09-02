@@ -19,6 +19,7 @@ class Main(models.Model):
     Money = models.IntegerField(default=100)
     Year = models.IntegerField(default=0)
     Price_discover_tile = models.IntegerField(default=20)
+    Infobox = models.TextField(default="hello there-second line-third line")
     Testnumber = models.IntegerField(default=0)
 
     def __str__(self):

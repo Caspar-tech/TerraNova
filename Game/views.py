@@ -20,6 +20,9 @@ class MainView(ListView):
 
         context['Main'] = Main.objects.get(Name="Game")
 
+        print((Main.objects.get(Name="Game").Infobox).split("-"))
+        context['Infobox'] = (Main.objects.get(Name="Game").Infobox).split("-")
+
         # Add in QuerySets of extra context
         Rows = Main.objects.get(Name="Game").Rows
         Columns = Main.objects.get(Name="Game").Columns
