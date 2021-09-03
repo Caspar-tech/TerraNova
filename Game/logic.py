@@ -24,7 +24,6 @@ def Newgrid(FormInput):
             Newtile.save()
 
     Center_square = Square.objects.get(Row=(Rows/2), Column=(Columns/2))
-    print(Center_square.Number)
     Center_square.Discovered = True
     Center_square.save()
 
@@ -34,6 +33,8 @@ def Newgrid(FormInput):
     MainGame.Money = 100
     MainGame.Year = 0
     MainGame.save()
+
+    Infobox("A new world has been created")
 
 def Discover(Clicked_square):
     # When a tile is clicked on the grid in the html template
@@ -97,4 +98,19 @@ def Money_check(Price):
         MainData.Money -= Price
         MainData.save()
         return True
+
+def Infobox(Message):
+    InfoboxList = (Main.objects.get(Name="Game").Infobox).split("-")
+    InfoboxList.insert(0, Message)
+
+    InfoboxString = ""
+    for i in InfoboxList:
+        InfoboxString += i + "-"
+
+    MainGame = Main.objects.get(Name="Game")
+    MainGame.Infobox = InfoboxString
+    MainGame.save()
+
+    print(InfoboxString)
+    print(Message)
 
