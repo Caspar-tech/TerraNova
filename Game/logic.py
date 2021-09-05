@@ -34,6 +34,7 @@ def Newgrid(FormInput):
     MainGame.Year = 0
     MainGame.save()
 
+    ClearInfobox()
     Infobox("A new world has been created")
 
 def Discover(Clicked_square):
@@ -56,8 +57,13 @@ def Discover(Clicked_square):
                 Tile = Square.objects.get(Number=Clicked_square)
                 Tile.Discovered = True
                 Tile.save()
+                Infobox("You succesfully discovered a new tile")
+            else:
+                Infobox("Insufficient money ({0}) to discover this tile".format(Main.objects.get(Name="Game").Price_discover_tile))
         else:
-            print("No adjacent tile discovered yet")
+            Infobox("You need to discover an adjacent tile first")
+    else:
+        Infobox("You already discovered this tile")
 
 def Who_are_my_neighbours(Number):
     # When a tile is clicked on the grid in the html template
@@ -89,10 +95,13 @@ def Who_are_my_neighbours(Number):
     return Neighbour_list
 
 def Money_check(Price):
+    # This function operates the money variable in the game
+    # It can be called in any other function when a player wants to buy something
+    # It will check whether there is enough money, if so will substract the price from the total amount
+    # It will return a True or False to the function that called it.
     MainData = Main.objects.get(Name="Game")
 
     if MainData.Money < Price:
-        print("insufficient funds")
         return False
     else:
         MainData.Money -= Price
@@ -100,17 +109,31 @@ def Money_check(Price):
         return True
 
 def Infobox(Message):
+    # This function operates the infobox with information for the player on the template
+    # All messages are stored as a string seperated by "-" in one field in the main database
+    # This function turns the string into a list and ammends a given new message
+    # Then it checks whether the maximum of 7 messages has been reached
+    # Then it returns the list to a string and saves it in the main database
     InfoboxList = (Main.objects.get(Name="Game").Infobox).split("-")
     InfoboxList.insert(0, Message)
 
+    Number_of_messages = len(InfoboxList)
+    if Number_of_messages > 7:
+        InfoboxList.pop()
+
     InfoboxString = ""
     for i in InfoboxList:
-        InfoboxString += i + "-"
+        if i != "":
+            InfoboxString += i + "-"
+    InfoboxString = InfoboxString[:-1]
 
     MainGame = Main.objects.get(Name="Game")
     MainGame.Infobox = InfoboxString
     MainGame.save()
 
-    print(InfoboxString)
-    print(Message)
+def ClearInfobox():
+    MainGame = Main.objects.get(Name="Game")
+    MainGame.Infobox = ""
+    MainGame.save()
+
 
