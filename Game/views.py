@@ -47,6 +47,8 @@ class MainView(ListView):
         if request.POST.get('Create') == 'Create':
             # Creates a new grid, using given Rows and Columns
             Newgrid(request.POST)
+        elif request.POST.get('Next Year') == 'Next Year':
+            pass
         elif request.POST.get('Square') != "":
             # Sets the clicked tile from undiscovered to discovered (if a neighbour is discovered)
             Discover(int(request.POST.get('Square')))

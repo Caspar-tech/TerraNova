@@ -11,6 +11,10 @@
         font-family: Arial;
     }
 
+    H1 {
+        font-size: 40px;
+    }
+
     .Topnav {
         background-color: #A0937D;
         border-style: solid;
@@ -22,6 +26,18 @@
           content: "";
           display: table;
           clear: both;
+    }
+
+    .NextYearButton {
+        background-color: #3A6351;
+        display: inline-block;
+        font-size: 30px;
+        color: #F2EDD7;
+        padding: 10px;
+    }
+
+    .Right {
+        float: right;
     }
 
     .ColumnLeft {
@@ -71,10 +87,21 @@
     }
 </style>
 
-<h1>Terra Nova</h1>
+<h1>Terra Nova
+
+    <div class = "Right">
+        <form method="POST">
+            {% csrf_token %}
+            <input class="NextYearButton" type="Submit" name="Next Year" value="Next Year">
+        </form>
+    </div>
+</h1>
 
 <div class="Topnav">
-    Money: {{ Main.Money }}  Year: {{ Main.Year }}
+    Money: {{ Main.Money }}
+    <div class="Right">
+        Year: {{ Main.Year }}
+    </div>
 </div>
 
 <!--    We use the ranges created in the views-page to go from square to square
@@ -124,4 +151,5 @@ We use the templatetag "index" to call all the terrains from the list-->
         </div>
     </div><!-- ColumnRight -->
 </div><!-- "row"-->
+
 {% endblock content %}
