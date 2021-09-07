@@ -48,7 +48,7 @@ class MainView(ListView):
             # Creates a new grid, using given Rows and Columns
             Newgrid(request.POST)
         elif request.POST.get('Next Year') == 'Next Year':
-            pass
+            return redirect('overview')
         elif request.POST.get('Square') != "":
             # Sets the clicked tile from undiscovered to discovered (if a neighbour is discovered)
             Discover(int(request.POST.get('Square')))
@@ -64,3 +64,13 @@ def register(request):
     else:
         form = UserRegisterForm()
     return render(request, 'Game/register.html', {'form': form})
+
+class OverviewView(ListView):
+    model = Square
+    template_name = "Game/overview.html"
+    context_object_name = "Square"
+
+    def post(self, request, *args, **kwargs):
+        if request.POST.get('Return') == 'Return':
+            return redirect('main')
+        return super().get(request, *args, **kwargs)

@@ -1,6 +1,26 @@
 body {
-    background-color: black;
+    background-color: #F2EDD7;
+    color: #3A6351;
     font-family: Arial;
+}
+
+H1 {
+    font-size: 40px;
+}
+
+.Topnav {
+    background-color: #A0937D;
+    border-style: solid;
+    border-width: 2px;
+    padding: 15px;
+}
+
+.TopButton {
+    background-color: #3A6351;
+    display: inline-block;
+    font-size: 30px;
+    color: #F2EDD7;
+    padding: 10px;
 }
 
 table {
@@ -10,4 +30,8 @@ table {
 
 td {
    border: 1px solid black;
+}
+
+.Right {
+    float: right;
 }

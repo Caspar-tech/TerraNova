@@ -5,39 +5,12 @@
 
 <!-- https://www.colorhunt.co/palette/5f939a3a6351a0937df2edd7 -->
 <style>
-    body {
-        background-color: #F2EDD7;
-        color: #3A6351;
-        font-family: Arial;
-    }
 
-    H1 {
-        font-size: 40px;
-    }
-
-    .Topnav {
-        background-color: #A0937D;
-        border-style: solid;
-        border-width: 2px;
-        padding: 15px;
-    }
 
     .row:after {
           content: "";
           display: table;
           clear: both;
-    }
-
-    .NextYearButton {
-        background-color: #3A6351;
-        display: inline-block;
-        font-size: 30px;
-        color: #F2EDD7;
-        padding: 10px;
-    }
-
-    .Right {
-        float: right;
     }
 
     .ColumnLeft {
@@ -92,7 +65,7 @@
     <div class = "Right">
         <form method="POST">
             {% csrf_token %}
-            <input class="NextYearButton" type="Submit" name="Next Year" value="Next Year">
+            <input class="TopButton" type="Submit" name="Next Year" value="Next Year">
         </form>
     </div>
 </h1>

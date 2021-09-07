@@ -1,0 +1,18 @@
+{% extends "Game/base.html" %}
+{% block content%}
+
+<h1>Terra Nova
+
+    <div class = "Right">
+        <form method="POST">
+            {% csrf_token %}
+            <input class="TopButton" type="Submit" name="Return" value="Return">
+        </form>
+    </div>
+</h1>
+
+<div class="Topnav">
+    Overview
+</div>
+
+{% endblock content %}
