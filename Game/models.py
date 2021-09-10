@@ -16,10 +16,14 @@ class Main(models.Model):
     Name = models.TextField(default="Game")
     Rows = models.IntegerField(default=3)
     Columns = models.IntegerField(default=3)
-    Money = models.IntegerField(default=100)
+    Food = models.IntegerField(default=100)
     Year = models.IntegerField(default=0)
     Price_discover_tile = models.IntegerField(default=20)
     Infobox = models.TextField(default="hello there-second line-third line")
+    NumberOfGrassTiles = models.IntegerField(default=1)
+    NumberOfWaterTiles = models.IntegerField(default=0)
+    FoodForGrass = models.IntegerField(default=5)
+    FoodForWater = models.IntegerField(default=0)
     Testnumber = models.IntegerField(default=0)
 
     def __str__(self):

@@ -35,3 +35,7 @@ td {
 .Right {
     float: right;
 }
+
+.Center {
+    text-align: center;
+}

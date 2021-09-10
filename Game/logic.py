@@ -25,13 +25,16 @@ def Newgrid(FormInput):
 
     Center_square = Square.objects.get(Row=(Rows/2), Column=(Columns/2))
     Center_square.Discovered = True
+    Center_square.Terrain = "Grass"
     Center_square.save()
 
     MainGame = Main.objects.get(Name="Game")
     MainGame.Rows = Rows
     MainGame.Columns = Columns
-    MainGame.Money = 100
+    MainGame.Food = 100
     MainGame.Year = 0
+    MainGame.FoodForGrass = 5
+    MainGame.FoodForWater = 1
     MainGame.save()
 
     ClearInfobox()
@@ -52,14 +55,14 @@ def Discover(Clicked_square):
                 Neighbour_discovered = True
 
         if Neighbour_discovered == True:
-            # Check if player has enough money to discover
-            if Money_check(Main.objects.get(Name="Game").Price_discover_tile):
+            # Check if player has enough food to discover
+            if Food_check(Main.objects.get(Name="Game").Price_discover_tile):
                 Tile = Square.objects.get(Number=Clicked_square)
                 Tile.Discovered = True
                 Tile.save()
                 Infobox("You succesfully discovered a new tile")
             else:
-                Infobox("Insufficient money ({0}) to discover this tile".format(Main.objects.get(Name="Game").Price_discover_tile))
+                Infobox("Insufficient food ({0}) to discover this tile".format(Main.objects.get(Name="Game").Price_discover_tile))
         else:
             Infobox("You need to discover an adjacent tile first")
     else:
@@ -94,17 +97,17 @@ def Who_are_my_neighbours(Number):
 
     return Neighbour_list
 
-def Money_check(Price):
-    # This function operates the money variable in the game
+def Food_check(Price):
+    # This function operates the food variable in the game
     # It can be called in any other function when a player wants to buy something
-    # It will check whether there is enough money, if so will substract the price from the total amount
+    # It will check whether there is enough food, if so will substract the price from the total amount
     # It will return a True or False to the function that called it.
     MainData = Main.objects.get(Name="Game")
 
-    if MainData.Money < Price:
+    if MainData.Food < Price:
         return False
     else:
-        MainData.Money -= Price
+        MainData.Food -= Price
         MainData.save()
         return True
 
@@ -136,4 +139,18 @@ def ClearInfobox():
     MainGame.Infobox = ""
     MainGame.save()
 
+def NextYear():
+    MainGame = Main.objects.get(Name="Game")
+    MainGame.Year += 1
+
+    NumberOfGrassTiles = len(Square.objects.filter(Discovered=True).filter(Terrain="Grass"))
+    NumberOfWaterTiles = len(Square.objects.filter(Discovered=True).filter(Terrain="Water"))
+
+    MainGame.NumberOfGrassTiles = NumberOfGrassTiles
+    MainGame.NumberOfWaterTiles = NumberOfWaterTiles
+
+    MainGame.Food += (NumberOfGrassTiles * MainGame.FoodForGrass)
+    MainGame.Food += (NumberOfWaterTiles * MainGame.FoodForWater)
+
+    MainGame.save()
 
