@@ -24,6 +24,9 @@ class Main(models.Model):
     NumberOfWaterTiles = models.IntegerField(default=0)
     FoodForGrass = models.IntegerField(default=5)
     FoodForWater = models.IntegerField(default=0)
+    TextEvent = models.TextField(default="Default text")
+    EventButton1 = models.TextField(default="B1")
+    EventButton2 = models.TextField(default="B2")
     Testnumber = models.IntegerField(default=0)
 
     def __str__(self):

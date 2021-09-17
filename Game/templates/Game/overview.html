@@ -16,9 +16,39 @@
         background-color: #A0937D;
     }
 
+     .ColumnEvent{
+        width: 50%;
+        padding: 15px;
+        border-style: solid;
+        border-width: 2px;
+        margin-top: 15px;
+        margin-left: auto;
+        margin-bottom: 15px;
+        margin-right: auto;
+        background-color: #5F939A;
+        color: #F2EDD7;
+    }
+
     .HeaderOverview {
         font-size: 25px;
         text-align: center;
+    }
+
+    .HeaderEvent {
+        font-size: 25px;
+        text-align: center;
+        color: #F2EDD7;
+    }
+
+    .ButtonEvent {
+        background-color: #F2EDD7;
+        display: inline-block;
+        font-size: 20px;
+        color: #F2EDD7;
+        padding: 10px;
+        margin: 10px;
+        margin-top: 30px;
+        color: #3A6351;
     }
 </style>
 
@@ -38,6 +68,19 @@
         Year: {{ Main.Year }}
     </div>
 </div>
+
+<div class="ColumnEvent">
+    <div class="HeaderEvent"> Event </div><br>
+    <div class="Center">
+        {{ Main.TextEvent }} <br>
+        <form method="POST">
+            {% csrf_token %}
+            <button class="ButtonEvent" type="Submit" name="EventButton1" value="EventButton1">{{ Main.EventButton1 }}</button>
+            <button class="ButtonEvent" type="Submit" name="EventButton2" value="EventButton2">{{ Main.EventButton2 }}</button>
+        </form>
+    </div>
+</div>
+
 
 <div class="ColumnCentral">
     <div class="HeaderOverview"> Yearly overview </div><br>
