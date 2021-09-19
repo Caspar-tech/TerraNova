@@ -52,7 +52,7 @@
     }
 </style>
 
-<h1>Terra Nova
+<h1>Terra Nova - Overview
 
     <div class = "Right">
         <form method="POST">
@@ -69,18 +69,27 @@
     </div>
 </div>
 
-<div class="ColumnEvent">
-    <div class="HeaderEvent"> Event </div><br>
-    <div class="Center">
-        {{ Main.TextEvent }} <br>
-        <form method="POST">
-            {% csrf_token %}
-            <button class="ButtonEvent" type="Submit" name="EventButton1" value="EventButton1">{{ Main.EventButton1 }}</button>
-            <button class="ButtonEvent" type="Submit" name="EventButton2" value="EventButton2">{{ Main.EventButton2 }}</button>
-        </form>
-    </div>
-</div>
+{% if Main.StartEvent == True or Main.EndEvent == True%}
+    <div class="ColumnEvent">
+        <div class="HeaderEvent"> Event </div><br>
+        <div class="Center">
+            {{ Main.TextEvent }} <br>
 
+            {% if Main.StartEvent == True %}
+                <form method="POST">
+                    {% csrf_token %}
+                    <button class="ButtonEvent" type="Submit" name="EventButton" value="EventButton1">{{ Main.EventButton1 }}</button>
+                    <button class="ButtonEvent" type="Submit" name="EventButton" value="EventButton2">{{ Main.EventButton2 }}</button>
+                </form>
+            {% endif %}
+
+            {% if Main.EndEvent == True %}
+                You have chosen an option!
+            {% endif %}
+
+        </div>
+    </div>
+{% endif %}
 
 <div class="ColumnCentral">
     <div class="HeaderOverview"> Yearly overview </div><br>
@@ -93,5 +102,6 @@
 
     {% endwith %}
 </div>
+
 
 {% endblock content %}

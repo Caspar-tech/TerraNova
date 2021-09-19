@@ -24,6 +24,8 @@ class Main(models.Model):
     NumberOfWaterTiles = models.IntegerField(default=0)
     FoodForGrass = models.IntegerField(default=5)
     FoodForWater = models.IntegerField(default=0)
+    StartEvent = models.BooleanField(default=False)
+    EndEvent = models.BooleanField(default=False)
     TextEvent = models.TextField(default="Default text")
     EventButton1 = models.TextField(default="B1")
     EventButton2 = models.TextField(default="B2")

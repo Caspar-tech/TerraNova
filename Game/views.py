@@ -7,6 +7,8 @@ from .logic import (
     Newgrid,
     Discover,
     NextYear,
+    StartEvent,
+    EndEvent,
 )
 
 # Main-page render function
@@ -50,7 +52,9 @@ class MainView(ListView):
             Newgrid(request.POST)
         elif request.POST.get('Next Year') == 'Next Year':
             NextYear()
-            return redirect('overview')
+            if Main.objects.get(Name="Game").StartEvent == False:
+                StartEvent()
+                return redirect('overview')
         elif request.POST.get('Square') != "":
             # Sets the clicked tile from undiscovered to discovered (if a neighbour is discovered)
             Discover(int(request.POST.get('Square')))
@@ -81,4 +85,6 @@ class OverviewView(ListView):
     def post(self, request, *args, **kwargs):
         if request.POST.get('Return') == 'Return':
             return redirect('main')
+        elif request.POST.get('EventButton') != "":
+            EndEvent(request.POST)
         return super().get(request, *args, **kwargs)

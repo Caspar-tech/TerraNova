@@ -141,16 +141,40 @@ def ClearInfobox():
 
 def NextYear():
     MainGame = Main.objects.get(Name="Game")
-    MainGame.Year += 1
+    if MainGame.StartEvent != True:
+        MainGame.Year += 1
 
-    NumberOfGrassTiles = len(Square.objects.filter(Discovered=True).filter(Terrain="Grass"))
-    NumberOfWaterTiles = len(Square.objects.filter(Discovered=True).filter(Terrain="Water"))
+        MainGame.EndEvent = False
 
-    MainGame.NumberOfGrassTiles = NumberOfGrassTiles
-    MainGame.NumberOfWaterTiles = NumberOfWaterTiles
+        NumberOfGrassTiles = len(Square.objects.filter(Discovered=True).filter(Terrain="Grass"))
+        NumberOfWaterTiles = len(Square.objects.filter(Discovered=True).filter(Terrain="Water"))
 
-    MainGame.Food += (NumberOfGrassTiles * MainGame.FoodForGrass)
-    MainGame.Food += (NumberOfWaterTiles * MainGame.FoodForWater)
+        MainGame.NumberOfGrassTiles = NumberOfGrassTiles
+        MainGame.NumberOfWaterTiles = NumberOfWaterTiles
+
+        MainGame.Food += (NumberOfGrassTiles * MainGame.FoodForGrass)
+        MainGame.Food += (NumberOfWaterTiles * MainGame.FoodForWater)
+
+        MainGame.save()
+    else:
+        Infobox("Before starting a new year you must make a choice on the dilemma in the overview")
+
+def StartEvent():
+    MainGame = Main.objects.get(Name="Game")
+    if (MainGame.Year % 2) == 0:
+        MainGame.StartEvent = False
+    else:
+        MainGame.StartEvent = True
+
+    MainGame.save()
+
+def EndEvent(FormInput):
+    MainGame = Main.objects.get(Name="Game")
+    if MainGame.StartEvent:
+        MainGame.StartEvent = False
+        MainGame.EndEvent = True
+
+    print(FormInput.get("EventButton"))
 
     MainGame.save()
 
