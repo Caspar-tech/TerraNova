@@ -83,8 +83,9 @@
                 </form>
             {% endif %}
 
+            <br>
             {% if Main.EndEvent == True %}
-                You have chosen an option!
+                {{ Main.TextEndEvent }}
             {% endif %}
 
         </div>
@@ -95,10 +96,10 @@
     <div class="HeaderOverview"> Yearly overview </div><br>
     <div class="Center"> Start of year {{ Main.Year }}</div><br>
     <hr><br>
-    {% with GrassFood=Main.NumberOfGrassTiles|mul:Main.FoodForGrass WaterFood=Main.NumberOfWaterTiles|mul:Main.FoodForWater %}
+    {% with GrassFood=Main.NumberOfGrassTiles|mul:Main.FoodForGrassCurrentYear WaterFood=Main.NumberOfWaterTiles|mul:Main.FoodForWaterCurrentYear %}
 
-    Grass: {{ Main.NumberOfGrassTiles }} tiles * {{ Main.FoodForGrass }} food = {{ GrassFood }} extra food<br>
-    Water: {{ Main.NumberOfWaterTiles }} tiles * {{ Main.FoodForWater }} food = {{ WaterFood }} extra food<br>
+    Grass: {{ Main.NumberOfGrassTiles }} tiles * {{ Main.FoodForGrassCurrentYear }} food = {{ GrassFood }} extra food<br>
+    Water: {{ Main.NumberOfWaterTiles }} tiles * {{ Main.FoodForWaterCurrentYear }} food = {{ WaterFood }} extra food<br>
 
     {% endwith %}
 </div>

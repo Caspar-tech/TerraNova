@@ -35,6 +35,9 @@ def Newgrid(FormInput):
     MainGame.Year = 0
     MainGame.FoodForGrass = 5
     MainGame.FoodForWater = 1
+    MainGame.StartEvent = False
+    MainGame.EndEvent = False
+    MainGame.Boat = False
     MainGame.save()
 
     ClearInfobox()
@@ -44,8 +47,13 @@ def Discover(Clicked_square):
     # When a tile is clicked on the grid in the html template
     # this functions checks whether a neighbour is already discovered
     # If this is true it "discovers" the clicked tile and reveals the terrain
-    # But first we check if the clicked tile really is undiscovered
-    if Square.objects.get(Number=Clicked_square).Discovered == False:
+
+    # But first we check if the tile is water and boating is already discovered and,
+    # then we check if the clicked tile really is undiscovered
+    MainGame = Main.objects.get(Name="Game")
+    if Square.objects.get(Number=Clicked_square).Terrain == "Water" and MainGame.Boat == False:
+        Infobox("Such a wet and cold place... I don't want to discover this tile")
+    elif Square.objects.get(Number=Clicked_square).Discovered == False:
 
         Neighbour_list = Who_are_my_neighbours(Clicked_square)
 
@@ -155,26 +163,49 @@ def NextYear():
         MainGame.Food += (NumberOfGrassTiles * MainGame.FoodForGrass)
         MainGame.Food += (NumberOfWaterTiles * MainGame.FoodForWater)
 
+        MainGame.FoodForGrassCurrentYear = MainGame.FoodForGrass
+        MainGame.FoodForWaterCurrentYear = MainGame.FoodForWater
+
         MainGame.save()
     else:
         Infobox("Before starting a new year you must make a choice on the dilemma in the overview")
 
 def StartEvent():
     MainGame = Main.objects.get(Name="Game")
-    if (MainGame.Year % 2) == 0:
-        MainGame.StartEvent = False
-    else:
+
+    if MainGame.Year == 2:
+        MainGame.TextEvent = "These berries look delicious!"
+        MainGame.EventButton1 = "Eat them"
+        MainGame.EventButton2 = "Probably also poisonous"
+        MainGame.StartEvent = True
+
+    if MainGame.Year == 4:
+        MainGame.TextEvent = "A man on a wooden floating device comes your way over an undiscovered tile. He offers you his knowledge of this so called 'ship'"
+        MainGame.EventButton1 = "Please, explain"
+        MainGame.EventButton2 = "No, sounds like witchcraft!"
         MainGame.StartEvent = True
 
     MainGame.save()
 
 def EndEvent(FormInput):
     MainGame = Main.objects.get(Name="Game")
-    if MainGame.StartEvent:
+    if MainGame.Year == 2:
         MainGame.StartEvent = False
         MainGame.EndEvent = True
+        if FormInput.get("EventButton") == "EventButton1":
+            MainGame.TextEndEvent = "These berries also taste delicious. I will call them strawberries and tell the others they can eat them. This will certainly increase food per grass tile."
+            MainGame.FoodForGrass = 6
+        elif FormInput.get("EventButton") == "EventButton2":
+            MainGame.TextEndEvent = "Did I just dodge a bullet? Or miss out on a great chance?"
 
-    print(FormInput.get("EventButton"))
+    if MainGame.Year == 4:
+        MainGame.StartEvent = False
+        MainGame.EndEvent = True
+        if FormInput.get("EventButton") == "EventButton1":
+            MainGame.TextEndEvent = "I have learned how to build a ship. Let's explore those wet tiles!"
+            MainGame.Boat = True
+        elif FormInput.get("EventButton") == "EventButton2":
+            MainGame.TextEndEvent = "Most people in your village praise you for resisting this black magic. But a few also point out that a ship could have been usefull in discovering more of the world."
 
     MainGame.save()
 
