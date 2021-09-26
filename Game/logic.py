@@ -12,8 +12,8 @@ def Newgrid(FormInput):
     # It randomly picks the terraintype from a list of available types
     Square.objects.all().delete()
 
-    Rows = int(FormInput.get("Rows"))
-    Columns = int(FormInput.get("Columns"))
+    Rows = 10
+    Columns = 10
 
     TerrainTypes = ["Grass", "Grass", "Water"]
 
@@ -41,7 +41,12 @@ def Newgrid(FormInput):
     MainGame.save()
 
     ClearInfobox()
-    Infobox("A new world has been created")
+    Infobox("You are the leader of a small tribe. You live from what you collect from the lands you know. "
+            "This provides you and your fellow tribesman with the food you need, year in year out. "
+            "But great disaster is ahead. The high priest had a vision that great droughts will happen in 10 years. "
+            "In order to save your tribe, you must gather as much food as possible. "
+            "Discovering new parts of the world will cost food but will also supply you "
+            " with more food in the long run. How wise a leader are you?")
 
 def Discover(Clicked_square):
     # When a tile is clicked on the grid in the html template
@@ -51,10 +56,7 @@ def Discover(Clicked_square):
     # But first we check if the tile is water and boating is already discovered and,
     # then we check if the clicked tile really is undiscovered
     MainGame = Main.objects.get(Name="Game")
-    if Square.objects.get(Number=Clicked_square).Terrain == "Water" and MainGame.Boat == False:
-        Infobox("Such a wet and cold place... I don't want to discover this tile")
-    elif Square.objects.get(Number=Clicked_square).Discovered == False:
-
+    if Square.objects.get(Number=Clicked_square).Discovered == False:
         Neighbour_list = Who_are_my_neighbours(Clicked_square)
 
         Neighbour_discovered = False
@@ -64,11 +66,24 @@ def Discover(Clicked_square):
 
         if Neighbour_discovered == True:
             # Check if player has enough food to discover
-            if Food_check(Main.objects.get(Name="Game").Price_discover_tile):
+            if MainGame.Price_discover_tile <= MainGame.Food:
+
                 Tile = Square.objects.get(Number=Clicked_square)
-                Tile.Discovered = True
+                if Tile.Terrain == "Grass":
+                    Tile.Discovered = True
+                    MainGame.Food -= MainGame.Price_discover_tile
+                    MainGame.save()
+                    Infobox("You succesfully discovered a new tile")
+
+                if Tile.Terrain == "Water":
+                    if MainGame.Boat == True:
+                        Tile.Discovered = True
+                        MainGame.Food -= MainGame.Price_discover_tile
+                        MainGame.save()
+                        Infobox("You succesfully discovered a new tile")
+                    else:
+                        Infobox("Such a wet and cold place... I don't want to discover this tile")
                 Tile.save()
-                Infobox("You succesfully discovered a new tile")
             else:
                 Infobox("Insufficient food ({0}) to discover this tile".format(Main.objects.get(Name="Game").Price_discover_tile))
         else:
@@ -105,20 +120,6 @@ def Who_are_my_neighbours(Number):
 
     return Neighbour_list
 
-def Food_check(Price):
-    # This function operates the food variable in the game
-    # It can be called in any other function when a player wants to buy something
-    # It will check whether there is enough food, if so will substract the price from the total amount
-    # It will return a True or False to the function that called it.
-    MainData = Main.objects.get(Name="Game")
-
-    if MainData.Food < Price:
-        return False
-    else:
-        MainData.Food -= Price
-        MainData.save()
-        return True
-
 def Infobox(Message):
     # This function operates the infobox with information for the player on the template
     # All messages are stored as a string seperated by "-" in one field in the main database
@@ -129,7 +130,7 @@ def Infobox(Message):
     InfoboxList.insert(0, Message)
 
     Number_of_messages = len(InfoboxList)
-    if Number_of_messages > 7:
+    if Number_of_messages > 20:
         InfoboxList.pop()
 
     InfoboxString = ""
@@ -178,8 +179,7 @@ def StartEvent():
         MainGame.EventButton1 = "Eat them"
         MainGame.EventButton2 = "Probably also poisonous"
         MainGame.StartEvent = True
-
-    if MainGame.Year == 4:
+    elif MainGame.Year == 4:
         MainGame.TextEvent = "A man on a wooden floating device comes your way over an undiscovered tile. He offers you his knowledge of this so called 'ship'"
         MainGame.EventButton1 = "Please, explain"
         MainGame.EventButton2 = "No, sounds like witchcraft!"
@@ -197,8 +197,7 @@ def EndEvent(FormInput):
             MainGame.FoodForGrass = 6
         elif FormInput.get("EventButton") == "EventButton2":
             MainGame.TextEndEvent = "Did I just dodge a bullet? Or miss out on a great chance?"
-
-    if MainGame.Year == 4:
+    elif MainGame.Year == 4:
         MainGame.StartEvent = False
         MainGame.EndEvent = True
         if FormInput.get("EventButton") == "EventButton1":

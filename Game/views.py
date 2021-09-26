@@ -47,7 +47,7 @@ class MainView(ListView):
         return context
 
     def post(self, request, *args, **kwargs):
-        if request.POST.get('Create') == 'Create':
+        if request.POST.get('Start new game') == 'Start new game':
             # Creates a new grid, using given Rows and Columns
             Newgrid(request.POST)
         elif request.POST.get('Next Year') == 'Next Year':
@@ -88,3 +88,21 @@ class OverviewView(ListView):
         elif request.POST.get('EventButton') != "":
             EndEvent(request.POST)
         return super().get(request, *args, **kwargs)
+
+class EndView(ListView):
+    model = Square
+    template_name = "Game/end.html"
+    context_object_name = "Square"
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        context['Main'] = Main.objects.get(Name="Game")
+        return context
+
+    # def post(self, request, *args, **kwargs):
+    #     if request.POST.get('Return') == 'Return':
+    #         return redirect('main')
+    #     elif request.POST.get('EventButton') != "":
+    #         EndEvent(request.POST)
+    #     return super().get(request, *args, **kwargs)

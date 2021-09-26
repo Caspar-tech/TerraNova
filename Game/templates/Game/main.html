@@ -46,6 +46,7 @@
         height: 220px;
         padding: 5px;
         border: 2px solid #3A6351;
+        overflow: auto;
     }
 
     .Tile  {
@@ -110,11 +111,7 @@ We use the templatetag "index" to call all the terrains from the list-->
         <br>
         <form method="POST">
             {% csrf_token %}
-            <p>Rows:</p>
-            <input type="number" name="Rows"><br>
-            <p>Columns:</p>
-            <input type="number" name="Columns"><br>
-            <input type="Submit" name="Create" value="Create">
+            <input type="Submit" name="Start new game" value="Start new game">
         </form>
 
     </div><!-- ColumnLeft -->

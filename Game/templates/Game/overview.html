@@ -97,10 +97,10 @@
     <div class="Center"> Start of year {{ Main.Year }}</div><br>
     <hr><br>
     {% with GrassFood=Main.NumberOfGrassTiles|mul:Main.FoodForGrassCurrentYear WaterFood=Main.NumberOfWaterTiles|mul:Main.FoodForWaterCurrentYear %}
-
-    Grass: {{ Main.NumberOfGrassTiles }} tiles * {{ Main.FoodForGrassCurrentYear }} food = {{ GrassFood }} extra food<br>
-    Water: {{ Main.NumberOfWaterTiles }} tiles * {{ Main.FoodForWaterCurrentYear }} food = {{ WaterFood }} extra food<br>
-
+        {% if Main.Year != 0 %}
+            Grass: {{ Main.NumberOfGrassTiles }} tiles * {{ Main.FoodForGrassCurrentYear }} food = {{ GrassFood }} extra food<br>
+            Water: {{ Main.NumberOfWaterTiles }} tiles * {{ Main.FoodForWaterCurrentYear }} food = {{ WaterFood }} extra food<br>
+        {% endif %}
     {% endwith %}
 </div>
 
