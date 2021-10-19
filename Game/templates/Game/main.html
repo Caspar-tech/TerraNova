@@ -37,13 +37,13 @@
     }
 
     .Toolbox {
-        height: 275px;
+        height: 70px;
     }
 
     .Infobox {
         background-color: #F2EDD7;
         color: #3A6351;
-        height: 220px;
+        height: 360px;
         padding: 5px;
         border: 2px solid #3A6351;
         overflow: auto;
@@ -73,7 +73,11 @@
     <div class = "Right">
         <form method="POST">
             {% csrf_token %}
-            <input class="TopButton" type="Submit" name="Next Year" value="Next Year">
+            {% if Main.GameEnded == False %}
+                <input class="TopButton" type="Submit" name="Next Year" value="Next Year">
+            {% else %}
+                <input class="TopButton" type="Submit" name="End Game" value="End Game">
+            {% endif %}
         </form>
     </div>
 </h1>
@@ -108,18 +112,12 @@ We use the templatetag "index" to call all the terrains from the list-->
         </form>
         <!-- This forms takes the requested number of rows and columns and puts it trough to views >> logic >> create.py -->
 
-        <br>
-        <form method="POST">
-            {% csrf_token %}
-            <input type="Submit" name="Start new game" value="Start new game">
-        </form>
-
     </div><!-- ColumnLeft -->
 
     <div class="ColumnRight">
         <div class="Toolbox">
-            --Toolbox--<br><br>
-             Go to: <a href="/overview">Overview</a>
+            -- Information --<br><br>
+             Click <a href="/overview">here</a> to go to the overview page
         </div>
 
         <div class="Infobox">
@@ -127,6 +125,13 @@ We use the templatetag "index" to call all the terrains from the list-->
                 >{{ line }} <br>
             {% endfor %}
         </div>
+        <br>
+
+        <form method="POST">
+            {% csrf_token %}
+            Want to give up and try again?
+            <input class="NewGameButton" type="Submit" name="Start new game" value="Start new game">
+        </form>
     </div><!-- ColumnRight -->
 </div><!-- "row"-->
 

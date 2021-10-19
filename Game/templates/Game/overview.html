@@ -3,19 +3,6 @@
 {% load mathfilters %}
 
 <style>
-    .ColumnCentral {
-        width: 40%;
-        height: 500px;
-        padding: 15px;
-        border-style: solid;
-        border-width: 2px;
-        margin-top: 15px;
-        margin-left: auto;
-        margin-bottom: 15px;
-        margin-right: auto;
-        background-color: #A0937D;
-    }
-
      .ColumnEvent{
         width: 50%;
         padding: 15px;
@@ -27,11 +14,6 @@
         margin-right: auto;
         background-color: #5F939A;
         color: #F2EDD7;
-    }
-
-    .HeaderOverview {
-        font-size: 25px;
-        text-align: center;
     }
 
     .HeaderEvent {
@@ -57,7 +39,11 @@
     <div class = "Right">
         <form method="POST">
             {% csrf_token %}
-            <input class="TopButton" type="Submit" name="Return" value="Return">
+            {% if Main.GameEnded == False %}
+                <input class="TopButton" type="Submit" name="Return" value="Return">
+            {% else %}
+                <input class="TopButton" type="Submit" name="End Game" value="End Game">
+            {% endif %}
         </form>
     </div>
 </h1>
@@ -99,7 +85,9 @@
     {% with GrassFood=Main.NumberOfGrassTiles|mul:Main.FoodForGrassCurrentYear WaterFood=Main.NumberOfWaterTiles|mul:Main.FoodForWaterCurrentYear %}
         {% if Main.Year != 0 %}
             Grass: {{ Main.NumberOfGrassTiles }} tiles * {{ Main.FoodForGrassCurrentYear }} food = {{ GrassFood }} extra food<br>
-            Water: {{ Main.NumberOfWaterTiles }} tiles * {{ Main.FoodForWaterCurrentYear }} food = {{ WaterFood }} extra food<br>
+            {% if Main.Boat == True %}
+                Water: {{ Main.NumberOfWaterTiles }} tiles * {{ Main.FoodForWaterCurrentYear }} food = {{ WaterFood }} extra food<br>
+            {% endif %}
         {% endif %}
     {% endwith %}
 </div>

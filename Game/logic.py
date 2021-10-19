@@ -4,7 +4,7 @@ from .models import (
     Square
 )
 
-def Newgrid(FormInput):
+def Newgrid():
     # This function is called when a button is pressed on the website to make a new grid
     # The function deletes all the existing squares from the database
     # Then it take the given number of rows and columns from the form on the website
@@ -38,9 +38,15 @@ def Newgrid(FormInput):
     MainGame.StartEvent = False
     MainGame.EndEvent = False
     MainGame.Boat = False
+    MainGame.GameEnded = False
+    MainGame.GameEndedSucces = False
     MainGame.save()
 
     ClearInfobox()
+    Infobox("You discover the world by clicking on a undiscovered (brown) tile on the world map. "
+            "When you click on a new tile you will read here whether your discovery was succesfull. "
+            "When you are done with discovering click on the Next Year button to proceed to the next year.")
+
     Infobox("You are the leader of a small tribe. You live from what you collect from the lands you know. "
             "This provides you and your fellow tribesman with the food you need, year in year out. "
             "But great disaster is ahead. The high priest had a vision that great droughts will happen in 10 years. "
@@ -184,6 +190,10 @@ def StartEvent():
         MainGame.EventButton1 = "Please, explain"
         MainGame.EventButton2 = "No, sounds like witchcraft!"
         MainGame.StartEvent = True
+    elif MainGame.Year == 6:
+        MainGame.GameEnded = True
+        if MainGame.Food > 100:
+            MainGame.GameEndedSucces = True
 
     MainGame.save()
 
@@ -207,4 +217,3 @@ def EndEvent(FormInput):
             MainGame.TextEndEvent = "Most people in your village praise you for resisting this black magic. But a few also point out that a ship could have been usefull in discovering more of the world."
 
     MainGame.save()
-

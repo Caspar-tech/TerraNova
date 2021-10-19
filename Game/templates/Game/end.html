@@ -15,4 +15,28 @@
     </div>
 </div>
 
+<div class="ColumnCentral">
+{% if Main.GameEnded == False %}
+    <div class="HeaderOverview"> Keep on playing the game has not ended yet</div><br>
+    <div class="Center">Go back to the <a href="/">World Map</a></div>
+{% else %}
+    <div class="HeaderOverview"> The game has ended </div><br><hr><br>
+    <div class="Center"> As the high priest predicted great droughts have struck your world</div><br>
+    {% if Main.GameEndedSucces == True %}
+        <div class="Center"> Luckily you gathered more than enough food which made your tribe survive the drought!</div><br>
+    {% else %}
+        <div class="Center"> Sadly enough you didn't gather enough food, your tribe did not survive the drought!</div><br>
+    {% endif %}
+
+    <form method="POST">
+        {% csrf_token %}
+        <div class="Center">
+            <input class="NewGameButton" type="Submit" name="Start new game" value="Start new game">
+        </div>
+    </form>
+
+    <hr><br>
+{% endif %}
+</div>
+
 {% endblock content %}

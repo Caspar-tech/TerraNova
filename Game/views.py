@@ -49,12 +49,14 @@ class MainView(ListView):
     def post(self, request, *args, **kwargs):
         if request.POST.get('Start new game') == 'Start new game':
             # Creates a new grid, using given Rows and Columns
-            Newgrid(request.POST)
+            Newgrid()
         elif request.POST.get('Next Year') == 'Next Year':
             NextYear()
             if Main.objects.get(Name="Game").StartEvent == False:
                 StartEvent()
                 return redirect('overview')
+        elif request.POST.get('End Game') == 'End Game':
+            return redirect('end')
         elif request.POST.get('Square') != "":
             # Sets the clicked tile from undiscovered to discovered (if a neighbour is discovered)
             Discover(int(request.POST.get('Square')))
@@ -85,6 +87,8 @@ class OverviewView(ListView):
     def post(self, request, *args, **kwargs):
         if request.POST.get('Return') == 'Return':
             return redirect('main')
+        elif request.POST.get('End Game') == 'End Game':
+            return redirect('end')
         elif request.POST.get('EventButton') != "":
             EndEvent(request.POST)
         return super().get(request, *args, **kwargs)
@@ -100,9 +104,8 @@ class EndView(ListView):
         context['Main'] = Main.objects.get(Name="Game")
         return context
 
-    # def post(self, request, *args, **kwargs):
-    #     if request.POST.get('Return') == 'Return':
-    #         return redirect('main')
-    #     elif request.POST.get('EventButton') != "":
-    #         EndEvent(request.POST)
-    #     return super().get(request, *args, **kwargs)
+    def post(self, request, *args, **kwargs):
+        if request.POST.get('Start new game') == 'Start new game':
+            Newgrid()
+            return redirect('main')
+        return super().get(request, *args, **kwargs)
