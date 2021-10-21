@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .forms import UserRegisterForm 
-from .models import Square, Main
+from .models import Square, Main, Highscore
 from django.views.generic import ListView
 
 from .logic import (
@@ -102,6 +102,7 @@ class EndView(ListView):
         # Call the base implementation first to get a context
         context = super().get_context_data(**kwargs)
         context['Main'] = Main.objects.get(Name="Game")
+        context['Highscore'] = Highscore.objects.all().order_by("-Food")
         return context
 
     def post(self, request, *args, **kwargs):

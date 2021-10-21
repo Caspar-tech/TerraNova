@@ -6,13 +6,25 @@
 <!-- https://www.colorhunt.co/palette/5f939a3a6351a0937df2edd7 -->
 <style>
 
-
     .row:after {
           content: "";
           display: table;
           clear: both;
     }
 
+    table {
+        border: 2px solid #3A6351;
+        border-collapse: collapse;
+    }
+
+    td {
+        padding: 0px;
+        border-collapse: collapse;
+    }
+
+    tr {
+        line-height: 0px;
+    }
     .ColumnLeft {
         float: left;
         width: 60%;
@@ -95,7 +107,6 @@ We use the templatetag "mathfilters" to be able to multiple within the html code
 We use the templatetag "index" to call all the terrains from the list-->
 <div class="row">
     <div class="ColumnLeft">
-
         <form method="POST">
             {% csrf_token %}
             <table>

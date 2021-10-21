@@ -35,7 +35,15 @@ class Main(models.Model):
     Boat = models.BooleanField(default=False)
     GameEnded = models.BooleanField(default=False)
     GameEndedSucces = models.BooleanField(default=False)
+    GameEndedHighscore = models.BooleanField(default=False)
     Testnumber = models.IntegerField(default=0)
+
+    def __str__(self):
+        return str(self.Name)
+
+class Highscore(models.Model):
+    Name = models.TextField(default="Anonymous")
+    Food = models.IntegerField(default=0)
 
     def __str__(self):
         return str(self.Name)

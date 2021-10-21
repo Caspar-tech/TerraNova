@@ -80,16 +80,17 @@
 
 <div class="ColumnCentral">
     <div class="HeaderOverview"> Yearly overview </div><br>
-    <div class="Center"> Start of year {{ Main.Year }}</div><br>
+    <div class="Center"> Start of year {{ Main.Year }}<br>
     <hr><br>
     {% with GrassFood=Main.NumberOfGrassTiles|mul:Main.FoodForGrassCurrentYear WaterFood=Main.NumberOfWaterTiles|mul:Main.FoodForWaterCurrentYear %}
         {% if Main.Year != 0 %}
-            Grass: {{ Main.NumberOfGrassTiles }} tiles * {{ Main.FoodForGrassCurrentYear }} food = {{ GrassFood }} extra food<br>
+            Grass: {{ Main.NumberOfGrassTiles }} tiles * {{ Main.FoodForGrassCurrentYear }} food = <b>{{ GrassFood }}</b> extra food<br>
             {% if Main.Boat == True %}
-                Water: {{ Main.NumberOfWaterTiles }} tiles * {{ Main.FoodForWaterCurrentYear }} food = {{ WaterFood }} extra food<br>
+                Water: {{ Main.NumberOfWaterTiles }} tiles * {{ Main.FoodForWaterCurrentYear }} food = <b>{{ WaterFood }}</b> extra food<br>
             {% endif %}
         {% endif %}
     {% endwith %}
+    </div>
 </div>
 
 

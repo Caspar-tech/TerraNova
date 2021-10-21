@@ -1,7 +1,8 @@
 import random
 from .models import (
     Main,
-    Square
+    Square,
+    Highscore
 )
 
 def Newgrid():
@@ -33,13 +34,14 @@ def Newgrid():
     MainGame.Columns = Columns
     MainGame.Food = 100
     MainGame.Year = 0
-    MainGame.FoodForGrass = 5
-    MainGame.FoodForWater = 1
+    MainGame.FoodForGrass = 4
+    MainGame.FoodForWater = 7
     MainGame.StartEvent = False
     MainGame.EndEvent = False
     MainGame.Boat = False
     MainGame.GameEnded = False
     MainGame.GameEndedSucces = False
+    MainGame.GameEndedHighscore = False
     MainGame.save()
 
     ClearInfobox()
@@ -194,6 +196,7 @@ def StartEvent():
         MainGame.GameEnded = True
         if MainGame.Food > 100:
             MainGame.GameEndedSucces = True
+            MainGame.GameEndedHighscore = True
 
     MainGame.save()
 
