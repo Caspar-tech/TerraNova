@@ -35,7 +35,7 @@ def Newgrid():
     MainGame.Food = 100
     MainGame.Year = 0
     MainGame.FoodForGrass = 4
-    MainGame.FoodForWater = 7
+    MainGame.FoodForWater = 9
     MainGame.StartEvent = False
     MainGame.EndEvent = False
     MainGame.Boat = False
@@ -219,4 +219,15 @@ def EndEvent(FormInput):
         elif FormInput.get("EventButton") == "EventButton2":
             MainGame.TextEndEvent = "Most people in your village praise you for resisting this black magic. But a few also point out that a ship could have been usefull in discovering more of the world."
 
+    MainGame.save()
+
+def SetNewHighscore(FormInput):
+    MainGame = Main.objects.get(Name="Game")
+
+    Name = FormInput.get("Name")
+    Food = MainGame.Food
+
+    Highscore.objects.create(Name=Name, Food=Food)
+
+    MainGame.GameEndedHighscore = False
     MainGame.save()

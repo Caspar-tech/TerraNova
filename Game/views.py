@@ -9,6 +9,7 @@ from .logic import (
     NextYear,
     StartEvent,
     EndEvent,
+    SetNewHighscore,
 )
 
 # Main-page render function
@@ -109,4 +110,6 @@ class EndView(ListView):
         if request.POST.get('Start new game') == 'Start new game':
             Newgrid()
             return redirect('main')
+        elif request.POST.get('Submit Highscore') == 'Submit Highscore':
+            SetNewHighscore(request.POST)
         return super().get(request, *args, **kwargs)

@@ -84,9 +84,9 @@
     <hr><br>
     {% with GrassFood=Main.NumberOfGrassTiles|mul:Main.FoodForGrassCurrentYear WaterFood=Main.NumberOfWaterTiles|mul:Main.FoodForWaterCurrentYear %}
         {% if Main.Year != 0 %}
-            Grass: {{ Main.NumberOfGrassTiles }} tiles * {{ Main.FoodForGrassCurrentYear }} food = <b>{{ GrassFood }}</b> extra food<br>
+            Grass: {{ Main.NumberOfGrassTiles }} tiles * {{ Main.FoodForGrassCurrentYear }} berries = <b>{{ GrassFood }}</b> extra food<br>
             {% if Main.Boat == True %}
-                Water: {{ Main.NumberOfWaterTiles }} tiles * {{ Main.FoodForWaterCurrentYear }} food = <b>{{ WaterFood }}</b> extra food<br>
+                Water: {{ Main.NumberOfWaterTiles }} tiles * {{ Main.FoodForWaterCurrentYear }} fish = <b>{{ WaterFood }}</b> extra food<br>
             {% endif %}
         {% endif %}
     {% endwith %}

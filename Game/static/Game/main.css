@@ -41,7 +41,7 @@ H1 {
 
 .ColumnCentral {
     width: 40%;
-    height: 500px;
+    display: inline-block;
     padding: 15px;
     border-style: solid;
     border-width: 2px;
