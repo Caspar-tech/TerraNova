@@ -30,52 +30,54 @@
     </div>
 </div>
 
-<div class="ColumnCentral" style="height: auto;">
-    {% if Main.GameEnded == False %}
-        <div class="HeaderOverview"> Keep on playing the game has not ended yet</div><br>
-        <div class="Center">Go back to the <a href="/">World Map</a></div>
-    {% else %}
-        <div class="HeaderOverview"> The game has ended </div><br><hr><br>
-        <div class="Center"> As the high priest predicted great droughts have struck the world</div><br>
-        {% if Main.GameEndedSucces == True %}
-            <div class="Center"> Luckily you gathered more than enough food which made your tribe survive the drought!</div><br>
+<center>
+    <div class="ColumnCentral" style="height: auto;">
+        {% if Main.GameEnded == False %}
+            <div class="HeaderOverview"> Keep on playing the game has not ended yet</div><br>
+            <div class="Center">Go back to the <a href="/">World Map</a></div>
         {% else %}
-            <div class="Center"> Sadly enough you didn't gather enough food, your tribe did not survive the drought!</div><br>
+            <div class="HeaderOverview"> The game has ended </div><br><hr><br>
+            <div class="Center"> As the high priest predicted great droughts have struck the world</div><br>
+            {% if Main.GameEndedSucces == True %}
+                <div class="Center"> Luckily you gathered more than enough food which made your tribe survive the drought!</div><br>
+            {% else %}
+                <div class="Center"> Sadly enough you didn't gather enough food (minimal 500), your tribe did not survive the drought!</div><br>
+            {% endif %}
+
+            <form method="POST">
+                {% csrf_token %}
+                <div class="Center">
+                    <input class="NewGameButton" type="Submit" name="Start new game" value="Start new game">
+                </div>
+            </form>
         {% endif %}
 
-        <form method="POST">
-            {% csrf_token %}
-            <div class="Center">
-                <input class="NewGameButton" type="Submit" name="Start new game" value="Start new game">
-            </div>
-        </form>
-    {% endif %}
+        <br><hr><br>
 
-    <br><hr><br>
+        {% if Main.GameEndedHighscore == True %}
+            <form method="POST">
+                {% csrf_token %}
+                <center>
+                    <input class="Inputfield" type="text" maxlength="15" placeholder="Put your name here" name="Name" required>
+                    <input class="NewGameButton" type="Submit" name="Submit Highscore" value="Submit Highscore">
+                </center>
+            </form><br>
+        {% endif %}
 
-    {% if Main.GameEndedHighscore == True %}
-        <form method="POST">
-            {% csrf_token %}
-            <center>
-                <input class="Inputfield" type="text" maxlength="15" placeholder="Put your name here" name="Name" required>
-                <input class="NewGameButton" type="Submit" name="Submit Highscore" value="Submit Highscore">
-            </center>
-        </form><br>
-    {% endif %}
+        <div class="HeaderOverview"> Highscore </div><br>
 
-    <div class="HeaderOverview"> Highscore </div><br>
+        <center>
+            <table>
+                {% for r in Highscore %}
+                    <tr>
+                        <td>{{ r.Name }}</td>
+                        <td>{{ r.Food }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </center>
 
-    <center>
-        <table>
-            {% for r in Highscore %}
-                <tr>
-                    <td>{{ r.Name }}</td>
-                    <td>{{ r.Food }}</td>
-                </tr>
-            {% endfor %}
-        </table>
-    </center>
-
-</div>
+    </div>
+</center>
 
 {% endblock content %}

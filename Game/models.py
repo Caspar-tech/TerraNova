@@ -33,6 +33,8 @@ class Main(models.Model):
     EventButton1 = models.TextField(default="B1")
     EventButton2 = models.TextField(default="B2")
     Boat = models.BooleanField(default=False)
+    Berry = models.BooleanField(default=False)
+    Sacrifice = models.BooleanField(default=False)
     GameEnded = models.BooleanField(default=False)
     GameEndedSucces = models.BooleanField(default=False)
     GameEndedHighscore = models.BooleanField(default=False)

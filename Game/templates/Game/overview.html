@@ -3,6 +3,7 @@
 {% load mathfilters %}
 
 <style>
+
      .ColumnEvent{
         width: 50%;
         padding: 15px;
@@ -78,20 +79,42 @@
     </div>
 {% endif %}
 
-<div class="ColumnCentral">
-    <div class="HeaderOverview"> Yearly overview </div><br>
-    <div class="Center"> Start of year {{ Main.Year }}<br>
-    <hr><br>
-    {% with GrassFood=Main.NumberOfGrassTiles|mul:Main.FoodForGrassCurrentYear WaterFood=Main.NumberOfWaterTiles|mul:Main.FoodForWaterCurrentYear %}
-        {% if Main.Year != 0 %}
-            Grass: {{ Main.NumberOfGrassTiles }} tiles * {{ Main.FoodForGrassCurrentYear }} berries = <b>{{ GrassFood }}</b> extra food<br>
-            {% if Main.Boat == True %}
-                Water: {{ Main.NumberOfWaterTiles }} tiles * {{ Main.FoodForWaterCurrentYear }} fish = <b>{{ WaterFood }}</b> extra food<br>
-            {% endif %}
-        {% endif %}
-    {% endwith %}
+<center>
+    <div class="ColumnCentral">
+        <div class="HeaderOverview"> Yearly overview </div><br>
+        <div class="Center"> Start of year {{ Main.Year }}<br>
+            <hr><br>
+            {% with GrassFood=Main.NumberOfGrassTiles|mul:Main.FoodForGrassCurrentYear WaterFood=Main.NumberOfWaterTiles|mul:Main.FoodForWaterCurrentYear %}
+                {% if Main.Year != 0 %}
+                    Grass: {{ Main.NumberOfGrassTiles }} tiles * {{ Main.FoodForGrassCurrentYear }} berries = <b>{{ GrassFood }}</b> extra food<br>
+                    {% if Main.Boat == True %}
+                        Water: {{ Main.NumberOfWaterTiles }} tiles * {{ Main.FoodForWaterCurrentYear }} fish = <b>{{ WaterFood }}</b> extra food<br>
+                    {% endif %}
+                {% endif %}
+            {% endwith %}
+        </div>
     </div>
-</div>
+    <br>
 
+    <div class="ColumnCentral">
+        <div class="HeaderOverview"> Explorations </div><br>
+        <hr><br>
+
+        {% if Main.Berry == True %}
+            <b>Tastefull berries</b><br>
+            Strawberries have increased food production per grass tile<br><br>
+        {% endif %}
+
+        {% if Main.Boat == True %}
+            <b>Boat</b><br>
+            Your knowledge of boats lets you discover water tiles<br><br>
+        {% endif %}
+
+        {% if Main.Sacrifice == True %}
+            <b>Regular sacrifice</b><br>
+            Every year you sacrifice 1 food per tile to the gods<br><br>
+        {% endif %}
+    </div>
+</center>
 
 {% endblock content %}

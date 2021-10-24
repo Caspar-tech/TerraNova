@@ -39,6 +39,8 @@ def Newgrid():
     MainGame.StartEvent = False
     MainGame.EndEvent = False
     MainGame.Boat = False
+    MainGame.Berry = False
+    MainGame.Sacrifice = False
     MainGame.GameEnded = False
     MainGame.GameEndedSucces = False
     MainGame.GameEndedHighscore = False
@@ -188,13 +190,22 @@ def StartEvent():
         MainGame.EventButton2 = "Probably also poisonous"
         MainGame.StartEvent = True
     elif MainGame.Year == 4:
-        MainGame.TextEvent = "A man on a wooden floating device comes your way over an undiscovered tile. He offers you his knowledge of this so called 'ship'"
+        MainGame.TextEvent = "A man on a wooden floating device comes your way from an undiscovered tile. " \
+                             "He offers you his knowledge of this so called 'boat'"
         MainGame.EventButton1 = "Please, explain"
         MainGame.EventButton2 = "No, sounds like witchcraft!"
         MainGame.StartEvent = True
     elif MainGame.Year == 6:
+        MainGame.TextEvent = "The high priest comes to you: 'The gods are not pleased with us. " \
+                             "We only take from the land but we never give back. " \
+                             "We should start sacrificing food on regular basis to the gods. " \
+                             "This way we show how gratefull we are and we will please the gods.'"
+        MainGame.EventButton1 = "Okay"
+        MainGame.EventButton2 = "No, gods don't need food"
+        MainGame.StartEvent = True
+    elif MainGame.Year == 10:
         MainGame.GameEnded = True
-        if MainGame.Food > 100:
+        if MainGame.Food > 500:
             MainGame.GameEndedSucces = True
             MainGame.GameEndedHighscore = True
 
@@ -206,18 +217,35 @@ def EndEvent(FormInput):
         MainGame.StartEvent = False
         MainGame.EndEvent = True
         if FormInput.get("EventButton") == "EventButton1":
-            MainGame.TextEndEvent = "These berries also taste delicious. I will call them strawberries and tell the others they can eat them. This will certainly increase food per grass tile."
+            MainGame.TextEndEvent = "These berries also taste delicious. " \
+                                    "I will call them strawberries and tell the others they can eat them. " \
+                                    "This will certainly increase food per grass tile."
             MainGame.FoodForGrass = 6
+            MainGame.Berry = True
         elif FormInput.get("EventButton") == "EventButton2":
             MainGame.TextEndEvent = "Did I just dodge a bullet? Or miss out on a great chance?"
     elif MainGame.Year == 4:
         MainGame.StartEvent = False
         MainGame.EndEvent = True
         if FormInput.get("EventButton") == "EventButton1":
-            MainGame.TextEndEvent = "I have learned how to build a ship. Let's explore those wet tiles!"
+            MainGame.TextEndEvent = "I have learned how to build a boat. Let's explore those wet tiles!"
             MainGame.Boat = True
         elif FormInput.get("EventButton") == "EventButton2":
-            MainGame.TextEndEvent = "Most people in your village praise you for resisting this black magic. But a few also point out that a ship could have been usefull in discovering more of the world."
+            MainGame.TextEndEvent = "Most people in your village praise you for resisting this black magic. " \
+                                    "But a few also point out that a boat could have " \
+                                    "been usefull in discovering more of the world."
+    elif MainGame.Year == 6:
+        MainGame.StartEvent = False
+        MainGame.EndEvent = True
+        if FormInput.get("EventButton") == "EventButton1":
+            MainGame.TextEndEvent = "The priest assures you the gods are pleased. " \
+                                    "Sadly enough the people of your tribe seem more hungry"
+            MainGame.FoodForGrass -= 1
+            MainGame.FoodForWater -= 1
+            MainGame.Sacrifice = True
+        elif FormInput.get("EventButton") == "EventButton2":
+            MainGame.TextEndEvent = "The priest is mad and assures you the gods will be too. " \
+                                    "But the people in your tribe don't seem to mind the extra food in their bellies."
 
     MainGame.save()
 
