@@ -38,12 +38,15 @@ class MainView(ListView):
         # We create a list of all terrain types, so we can iterate over them in the html template
         # Only discovered tiles reveal their terrain, else "undiscovered" is added to the list
         Square_terrain = []
+        Numbers = []
         for i in Square.objects.all():
             if i.Discovered == True:
                 Square_terrain.append(i.Terrain)
             else:
                 Square_terrain.append("Undiscovered")
+            Numbers.append(i.Number)
         context['Square_terrain'] = Square_terrain
+        context['Numbers'] = Numbers
 
         return context
 
