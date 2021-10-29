@@ -39,7 +39,7 @@ class MainView(ListView):
         # Only discovered tiles reveal their terrain, else "undiscovered" is added to the list
         Square_terrain = []
         Numbers = []
-        for i in Square.objects.all():
+        for i in Square.objects.all().order_by("Number"):
             if i.Discovered == True:
                 Square_terrain.append(i.Terrain)
             else:
