@@ -26,7 +26,7 @@ SECRET_KEY = 'jknr-y-a1c0n8rpakc88)-1jh4cu!p-sio4s734lwt3)$ed#=n'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [gameterranova.herokuapp.com]
+ALLOWED_HOSTS = ['gameterranova.herokuapp.com']
 
 
 # Application definition
