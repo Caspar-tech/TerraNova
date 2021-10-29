@@ -115,6 +115,9 @@ We use the templatetag "index" to call all the terrains from the list-->
                         {% for c in ColumnsRange %}
                             {% with n=r|mul:Columns|add:c %}
                                 <td><button class="{{ Square_terrain|index:n }} Tile" type="Submit" name="Square" value={{n}}></button></td>
+                                <script>
+                                console.log("{{ r }} {{ c }} {{ n }} {{ Square_terrain|index:n }}");
+                                </script>
                             {% endwith %}
                         {% endfor %}
                     </tr>

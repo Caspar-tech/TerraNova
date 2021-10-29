@@ -43,7 +43,6 @@ class MainView(ListView):
                 Square_terrain.append(i.Terrain)
             else:
                 Square_terrain.append("Undiscovered")
-        print(Square_terrain)
         context['Square_terrain'] = Square_terrain
 
         return context
