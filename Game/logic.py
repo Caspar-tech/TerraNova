@@ -203,6 +203,12 @@ def StartEvent():
         MainGame.EventButton1 = "Okay"
         MainGame.EventButton2 = "No, gods don't need food"
         MainGame.StartEvent = True
+    elif MainGame.Year == 8:
+        MainGame.TextEvent = "A group of fierce looking man approach your village by boat. " \
+                             "They have helmets with horns and big axes. They seem dangerous..."
+        MainGame.EventButton1 = "Hide in the hills"
+        MainGame.EventButton2 = "Defend the village"
+        MainGame.StartEvent = True
     elif MainGame.Year == 10:
         MainGame.GameEnded = True
         if MainGame.Food > 500:
@@ -246,6 +252,19 @@ def EndEvent(FormInput):
         elif FormInput.get("EventButton") == "EventButton2":
             MainGame.TextEndEvent = "The priest is mad and assures you the gods will be too. " \
                                     "But the people in your tribe don't seem to mind the extra food in their bellies."
+    elif MainGame.Year == 8:
+        MainGame.StartEvent = False
+        MainGame.EndEvent = True
+        if FormInput.get("EventButton") == "EventButton1":
+            MainGame.TextEndEvent = "The 'vikings' steal 40 food but everybody is still alive."
+            MainGame.Food -= 40
+        elif FormInput.get("EventButton") == "EventButton2":
+            MainGame.TextEndEvent = "Your tribesman are no match for the 'vikings'. " \
+                                    "After a few of your friends are killed you surrender the village. " \
+                                    "The vikings force you to tell them where the food is hidden." \
+                                    "They take 100 food. " \
+                                    "But Luckily the vikings are on a tight schedule, no time to burn your village. "
+            MainGame.Food -= 100
 
     MainGame.save()
 
