@@ -66,19 +66,19 @@ def Discover(Clicked_square):
     # But first we check if the tile is water and boating is already discovered and,
     # then we check if the clicked tile really is undiscovered
     MainGame = Main.objects.get(Name="Game")
-    if Square.objects.get(Number=Clicked_square).Discovered == False:
+    if Square.objects.get(Number=Clicked_square, Save=False).Discovered == False:
         Neighbour_list = Who_are_my_neighbours(Clicked_square)
 
         Neighbour_discovered = False
         for i in Neighbour_list:
-            if Square.objects.get(Number=i).Discovered == True:
+            if Square.objects.get(Number=i, Save=False).Discovered == True:
                 Neighbour_discovered = True
 
         if Neighbour_discovered == True:
             # Check if player has enough food to discover
             if MainGame.Price_discover_tile <= MainGame.Food:
 
-                Tile = Square.objects.get(Number=Clicked_square)
+                Tile = Square.objects.get(Number=Clicked_square, Save=False)
                 if Tile.Terrain == "Grass":
                     Tile.Discovered = True
                     MainGame.Food -= MainGame.Price_discover_tile
@@ -106,8 +106,8 @@ def Who_are_my_neighbours(Number):
     # This function returns a list of the number of the neighbour tiles
     Columns = Main.objects.get(Name="Game").Columns
     Rows = Main.objects.get(Name="Game").Rows
-    Column = Square.objects.get(Number=Number).Column
-    Row = Square.objects.get(Number=Number).Row
+    Column = Square.objects.get(Number=Number, Save=False).Column
+    Row = Square.objects.get(Number=Number, Save=False).Row
 
     Highest_number = Columns*Rows
 
@@ -278,3 +278,45 @@ def SetNewHighscore(FormInput):
 
     MainGame.GameEndedHighscore = False
     MainGame.save()
+
+def Save():
+    Square.objects.filter(Save=True).delete()
+
+    Tiles = Square.objects.all()
+    for i in Tiles:
+        CopySaveTile = Square(Number=i.Number, Row=i.Row, Column=i.Column, Terrain=i.Terrain,
+                              Discovered=i.Discovered, Save=True)
+        CopySaveTile.save()
+
+    try:
+        Main.objects.get(Name="Save").delete()
+    except:
+        print("No savegame detected to delete")
+
+    SaveGame = Main.objects.get(Name="Game")
+    SaveGame.pk += 1
+    SaveGame.Name = "Save"
+    SaveGame.save()
+
+    Infobox("Game was successfully saved")
+
+def Load():
+    if Main.objects.filter(Name="Save").exists():
+        Square.objects.filter(Save=False).delete()
+
+        Tiles = Square.objects.all()
+        for i in Tiles:
+            CopySaveTile = Square(Number=i.Number, Row=i.Row, Column=i.Column, Terrain=i.Terrain,
+                                  Discovered=i.Discovered, Save=False)
+            CopySaveTile.save()
+
+        Main.objects.get(Name="Game").delete()
+
+        MainGame = Main.objects.get(Name="Save")
+        MainGame.pk += 1
+        MainGame.Name = "Game"
+        MainGame.save()
+
+        Infobox("Game was successfully loaded")
+    else:
+        Infobox("There is no save game yet")

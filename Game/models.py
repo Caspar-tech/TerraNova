@@ -8,6 +8,7 @@ class Square(models.Model):
     Column = models.IntegerField(default=0)
     Terrain = models.TextField(default="Grass")
     Discovered = models.BooleanField(default=False)
+    Save = models.BooleanField(default=False)
 
     def __str__(self):
         return str(self.Row) + "x" + str(self.Column)

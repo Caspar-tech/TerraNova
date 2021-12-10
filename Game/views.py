@@ -10,6 +10,8 @@ from .logic import (
     StartEvent,
     EndEvent,
     SetNewHighscore,
+    Save,
+    Load,
 )
 
 # Main-page render function
@@ -39,7 +41,7 @@ class MainView(ListView):
         # Only discovered tiles reveal their terrain, else "undiscovered" is added to the list
         Square_terrain = []
         Numbers = []
-        for i in Square.objects.all().order_by("Number"):
+        for i in Square.objects.filter(Save=False).order_by("Number"):
             if i.Discovered == True:
                 Square_terrain.append(i.Terrain)
             else:
@@ -54,6 +56,10 @@ class MainView(ListView):
         if request.POST.get('Start new game') == 'Start new game':
             # Creates a new grid, using given Rows and Columns
             Newgrid()
+        elif request.POST.get('Save') == 'Save':
+            Save()
+        elif request.POST.get('Load') == 'Load':
+            Load()
         elif request.POST.get('Next Year') == 'Next Year':
             NextYear()
             if Main.objects.get(Name="Game").StartEvent == False:
