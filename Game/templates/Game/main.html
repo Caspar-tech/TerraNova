@@ -105,10 +105,6 @@
 Every square we fill with the terrain from the terrain list we made in views
 We use the templatetag "mathfilters" to be able to multiple within the html code
 We use the templatetag "index" to call all the terrains from the list-->
-<script>
-console.log("{{ Square_terrain }}");
-console.log("{{ Numbers }}");
-</script>
 
 <div class="row">
     <div class="ColumnLeft">
@@ -120,14 +116,20 @@ console.log("{{ Numbers }}");
                         {% for c in ColumnsRange %}
                             {% with n=r|mul:Columns|add:c %}
                                 <td><button class="{{ Square_terrain|index:n }} Tile" type="Submit" name="Square" value={{n}}></button></td>
-                                <script>
-                                console.log("{{ r }} {{ c }} {{ n }} {{ Square_terrain|index:n }}");
-                                </script>
                             {% endwith %}
                         {% endfor %}
                     </tr>
                 {% endfor %}
             </table>
+            <br>
+
+            <div>
+                <label>What action do you want to perform?</label>
+                <select name="Tileoption" id="Tileoption">
+                    <option value="Discover">Explore</option>
+                    <option value="Build">Build</option>
+                </select>
+            </div>
         </form>
         <!-- This forms takes the requested number of rows and columns and puts it trough to views >> logic >> create.py -->
 

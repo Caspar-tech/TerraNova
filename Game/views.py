@@ -5,7 +5,7 @@ from django.views.generic import ListView
 
 from .logic import (
     Newgrid,
-    Discover,
+    ClickSquare,
     NextYear,
     StartEvent,
     EndEvent,
@@ -69,7 +69,7 @@ class MainView(ListView):
             return redirect('end')
         elif request.POST.get('Square') != "":
             # Sets the clicked tile from undiscovered to discovered (if a neighbour is discovered)
-            Discover(int(request.POST.get('Square')))
+            ClickSquare(request.POST)
         return super().get(request, *args, **kwargs)
 
 #Register-page render function

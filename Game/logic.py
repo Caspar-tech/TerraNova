@@ -58,48 +58,54 @@ def Newgrid():
             "Discovering new parts of the world will cost food but will also supply you "
             " with more food in the long run. How wise a leader are you?")
 
-def Discover(Clicked_square):
+def ClickSquare(FormInput):
     # When a tile is clicked on the grid in the html template
     # this functions checks whether a neighbour is already discovered
     # If this is true it "discovers" the clicked tile and reveals the terrain
 
     # But first we check if the tile is water and boating is already discovered and,
     # then we check if the clicked tile really is undiscovered
-    MainGame = Main.objects.get(Name="Game")
-    if Square.objects.get(Number=Clicked_square, Save=False).Discovered == False:
-        Neighbour_list = Who_are_my_neighbours(Clicked_square)
+    Tileoption = FormInput.get("Tileoption")
 
-        Neighbour_discovered = False
-        for i in Neighbour_list:
-            if Square.objects.get(Number=i, Save=False).Discovered == True:
-                Neighbour_discovered = True
+    if Tileoption == "Discover":
+        MainGame = Main.objects.get(Name="Game")
+        Clicked_square = int(FormInput.get("Square"))
+        if Square.objects.get(Number=Clicked_square, Save=False).Discovered == False:
+            Neighbour_list = Who_are_my_neighbours(Clicked_square)
 
-        if Neighbour_discovered == True:
-            # Check if player has enough food to discover
-            if MainGame.Price_discover_tile <= MainGame.Food:
+            Neighbour_discovered = False
+            for i in Neighbour_list:
+                if Square.objects.get(Number=i, Save=False).Discovered == True:
+                    Neighbour_discovered = True
 
-                Tile = Square.objects.get(Number=Clicked_square, Save=False)
-                if Tile.Terrain == "Grass":
-                    Tile.Discovered = True
-                    MainGame.Food -= MainGame.Price_discover_tile
-                    MainGame.save()
-                    Infobox("You succesfully discovered a new tile")
+            if Neighbour_discovered == True:
+                # Check if player has enough food to discover
+                if MainGame.Price_discover_tile <= MainGame.Food:
 
-                if Tile.Terrain == "Water":
-                    if MainGame.Boat == True:
+                    Tile = Square.objects.get(Number=Clicked_square, Save=False)
+                    if Tile.Terrain == "Grass":
                         Tile.Discovered = True
                         MainGame.Food -= MainGame.Price_discover_tile
                         MainGame.save()
                         Infobox("You succesfully discovered a new tile")
-                    else:
-                        Infobox("Such a wet and cold place... I don't want to discover this tile")
-                Tile.save()
+
+                    if Tile.Terrain == "Water":
+                        if MainGame.Boat == True:
+                            Tile.Discovered = True
+                            MainGame.Food -= MainGame.Price_discover_tile
+                            MainGame.save()
+                            Infobox("You succesfully discovered a new tile")
+                        else:
+                            Infobox("Such a wet and cold place... I don't want to discover this tile")
+                    Tile.save()
+                else:
+                    Infobox("Insufficient food ({0}) to discover this tile".format(Main.objects.get(Name="Game").Price_discover_tile))
             else:
-                Infobox("Insufficient food ({0}) to discover this tile".format(Main.objects.get(Name="Game").Price_discover_tile))
+                Infobox("You need to discover an adjacent tile first")
         else:
-            Infobox("You need to discover an adjacent tile first")
-    else:
-        Infobox("You already discovered this tile")
+            Infobox("You already discovered this tile")
+    elif Tileoption == "Build":
+        print("Building!")
 
 def Who_are_my_neighbours(Number):
     # When a tile is clicked on the grid in the html template
