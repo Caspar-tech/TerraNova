@@ -36,6 +36,7 @@ def Newgrid():
     MainGame.Year = 0
     MainGame.FoodForGrass = 4
     MainGame.FoodForWater = 9
+    MainGame.FoodForFarm = 25
     MainGame.StartEvent = False
     MainGame.EndEvent = False
     MainGame.Boat = False
@@ -66,10 +67,10 @@ def ClickSquare(FormInput):
     # But first we check if the tile is water and boating is already discovered and,
     # then we check if the clicked tile really is undiscovered
     Tileoption = FormInput.get("Tileoption")
+    Clicked_square = int(FormInput.get("Square"))
 
     if Tileoption == "Discover":
         MainGame = Main.objects.get(Name="Game")
-        Clicked_square = int(FormInput.get("Square"))
         if Square.objects.get(Number=Clicked_square, Save=False).Discovered == False:
             Neighbour_list = Who_are_my_neighbours(Clicked_square)
 
@@ -105,7 +106,24 @@ def ClickSquare(FormInput):
         else:
             Infobox("You already discovered this tile")
     elif Tileoption == "Build":
-        print("Building!")
+        MainGame = Main.objects.get(Name="Game")
+        Tile = Square.objects.get(Number=Clicked_square, Save=False)
+        if Tile.Discovered == True:
+
+            if Tile.Terrain == "Grass":
+
+                if MainGame.PriceBuildFarm <= MainGame.Food:
+                    Tile.Terrain = "Farm"
+                    Tile.save()
+                    MainGame.Food -= MainGame.PriceBuildFarm
+                    MainGame.save()
+                    Infobox("You built a farm")
+                else:
+                    Infobox("Insufficient food ({0}) to build a farm".format(Main.objects.get(Name="Game").PriceBuildFarm))
+            else:
+                Infobox("You can only build a farm on an empty grass tile")
+        else:
+            Infobox("You can only build a farm on an explored tile")
 
 def Who_are_my_neighbours(Number):
     # When a tile is clicked on the grid in the html template
@@ -171,17 +189,21 @@ def NextYear():
 
         MainGame.EndEvent = False
 
-        NumberOfGrassTiles = len(Square.objects.filter(Discovered=True).filter(Terrain="Grass"))
-        NumberOfWaterTiles = len(Square.objects.filter(Discovered=True).filter(Terrain="Water"))
+        NumberOfGrassTiles = len(Square.objects.filter(Discovered=True, Save=False).filter(Terrain="Grass"))
+        NumberOfWaterTiles = len(Square.objects.filter(Discovered=True, Save=False).filter(Terrain="Water"))
+        NumberOfFarmTiles = len(Square.objects.filter(Discovered=True, Save=False).filter(Terrain="Farm"))
 
         MainGame.NumberOfGrassTiles = NumberOfGrassTiles
         MainGame.NumberOfWaterTiles = NumberOfWaterTiles
+        MainGame.NumberOfFarmTiles = NumberOfFarmTiles
 
         MainGame.Food += (NumberOfGrassTiles * MainGame.FoodForGrass)
         MainGame.Food += (NumberOfWaterTiles * MainGame.FoodForWater)
+        MainGame.Food += (NumberOfFarmTiles * MainGame.FoodForFarm)
 
         MainGame.FoodForGrassCurrentYear = MainGame.FoodForGrass
         MainGame.FoodForWaterCurrentYear = MainGame.FoodForWater
+        MainGame.FoodForFarmCurrentYear = MainGame.FoodForFarm
 
         MainGame.save()
     else:

@@ -84,11 +84,14 @@
         <div class="HeaderOverview"> Yearly overview </div><br>
         <div class="Center"> Start of year {{ Main.Year }}<br>
             <hr><br>
-            {% with GrassFood=Main.NumberOfGrassTiles|mul:Main.FoodForGrassCurrentYear WaterFood=Main.NumberOfWaterTiles|mul:Main.FoodForWaterCurrentYear %}
+            {% with GrassFood=Main.NumberOfGrassTiles|mul:Main.FoodForGrassCurrentYear WaterFood=Main.NumberOfWaterTiles|mul:Main.FoodForWaterCurrentYear FarmFood=Main.NumberOfFarmTiles|mul:Main.FoodForFarmCurrentYear %}
                 {% if Main.Year != 0 %}
                     Grass: {{ Main.NumberOfGrassTiles }} tiles * {{ Main.FoodForGrassCurrentYear }} berries = <b>{{ GrassFood }}</b> extra food<br>
                     {% if Main.Boat == True %}
                         Water: {{ Main.NumberOfWaterTiles }} tiles * {{ Main.FoodForWaterCurrentYear }} fish = <b>{{ WaterFood }}</b> extra food<br>
+                    {% endif %}
+                    {% if Main.NumberOfFarmTiles > 0 %}
+                        Farms: {{ Main.NumberOfFarmTiles }} tiles * {{ Main.FoodForFarmCurrentYear }} crops = <b>{{ FarmFood }}</b> extra food<br>
                     {% endif %}
                 {% endif %}
             {% endwith %}
