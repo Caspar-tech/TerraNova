@@ -65,10 +65,13 @@
 
             The hope of your tribe was that after the drought, things would get back to normal.
             Sadly enough this proofed to be an illusion. The world around you has changed for the worse.
-            There used to be many small tribes minding there own business.
+            There used to be many small tribes minding their own business.
             The drought has started a race for survival which can not be stopped.
             It has become clear that you either eat or be eaten as tribe.
-            The other tribes have started to militarize, you must follow and prepare for war...
+            The other tribes have started to militarize, you must follow and prepare for war.
+            In this age of simple man against man warfare having the largest army means winning the war.
+            But large armies require food. And to produce food you need people working on the fields.
+            It is all about the right balance...
         </div>
     </div>
 {% endif %}
@@ -112,6 +115,10 @@
                     {% endif %}
                 {% endif %}
             {% endwith %}
+
+            {% if Main.Phase > 1 and Main.Year > 10 %}
+                Population: {{ Main.Population }} people * 3 meals a day for a year = <b>-{{ Main.Population }}</b> less food<br>
+            {% endif %}
         </div>
     </div>
     <br>

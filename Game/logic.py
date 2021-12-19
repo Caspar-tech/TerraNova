@@ -33,7 +33,9 @@ def Newgrid():
     MainGame.Rows = Rows
     MainGame.Columns = Columns
     MainGame.Food = 100
+    MainGame.Population = 100
     MainGame.Year = 0
+    MainGame.Phase = 1
     MainGame.FoodForGrass = 4
     MainGame.FoodForWater = 9
     MainGame.FoodForFarm = 25
@@ -105,7 +107,7 @@ def ClickSquare(FormInput):
                 Infobox("You need to discover an adjacent tile first")
         else:
             Infobox("You already discovered this tile")
-    elif Tileoption == "Build":
+    elif Tileoption == "Build Farm":
         MainGame = Main.objects.get(Name="Game")
         Tile = Square.objects.get(Number=Clicked_square, Save=False)
         if Tile.Discovered == True:
@@ -189,6 +191,7 @@ def NextYear():
 
         MainGame.EndEvent = False
 
+        # Adding food
         NumberOfGrassTiles = len(Square.objects.filter(Discovered=True, Save=False).filter(Terrain="Grass"))
         NumberOfWaterTiles = len(Square.objects.filter(Discovered=True, Save=False).filter(Terrain="Water"))
         NumberOfFarmTiles = len(Square.objects.filter(Discovered=True, Save=False).filter(Terrain="Farm"))
@@ -204,6 +207,10 @@ def NextYear():
         MainGame.FoodForGrassCurrentYear = MainGame.FoodForGrass
         MainGame.FoodForWaterCurrentYear = MainGame.FoodForWater
         MainGame.FoodForFarmCurrentYear = MainGame.FoodForFarm
+
+        # Subtracting food
+        if MainGame.Phase > 1:
+            MainGame.Food -= MainGame.Population
 
         MainGame.save()
     else:
@@ -240,8 +247,7 @@ def StartEvent():
     elif MainGame.Year == 10:
         if MainGame.Food < 500:
             MainGame.GameEnded = True
-            # MainGame.GameEndedSucces = True
-            # MainGame.GameEndedHighscore = True
+            MainGame.SubmitHighscore = True
         else:
             MainGame.Phase += 1
 
@@ -306,7 +312,8 @@ def SetNewHighscore(FormInput):
 
     Highscore.objects.create(Name=Name, Food=Food)
 
-    MainGame.GameEndedHighscore = False
+    MainGame.SubmitHighscore = False
+
     MainGame.save()
 
 def Save():

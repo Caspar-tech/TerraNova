@@ -18,6 +18,7 @@ class Main(models.Model):
     Rows = models.IntegerField(default=3)
     Columns = models.IntegerField(default=3)
     Food = models.IntegerField(default=100)
+    Population = models.IntegerField(default=100)
     Year = models.IntegerField(default=0)
     Phase = models.IntegerField(default=1)
     Price_discover_tile = models.IntegerField(default=20)
@@ -42,8 +43,7 @@ class Main(models.Model):
     Berry = models.BooleanField(default=False)
     Sacrifice = models.BooleanField(default=False)
     GameEnded = models.BooleanField(default=False)
-    GameEndedSucces = models.BooleanField(default=False)
-    GameEndedHighscore = models.BooleanField(default=False)
+    SubmitHighscore = models.BooleanField(default=False)
     Testnumber = models.IntegerField(default=0)
 
     def __str__(self):

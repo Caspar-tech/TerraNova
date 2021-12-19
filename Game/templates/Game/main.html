@@ -100,6 +100,9 @@
 
 <div class="Topnav">
     Food: {{ Main.Food }}
+    {% if Main.Phase > 1 %}
+        &emsp; Population: {{ Main.Population }}
+    {% endif %}
     <div class="Right">
         Year: {{ Main.Year }}
     </div>
@@ -127,13 +130,17 @@ We use the templatetag "index" to call all the terrains from the list-->
             </table>
             <br>
 
+
             <div>
                 <label>What action do you want to perform?</label>
                 <select name="Tileoption" id="Tileoption">
                     <option value="Discover">Explore</option>
-                    <option value="Build">Build</option>
+                    {% if Main.Phase > 1 %}
+                        <option value="Build Farm">Build Farm</option>
+                    {% endif %}
                 </select>
             </div>
+
         </form>
         <!-- This forms takes the requested number of rows and columns and puts it trough to views >> logic >> create.py -->
 
