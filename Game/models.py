@@ -19,6 +19,7 @@ class Main(models.Model):
     Columns = models.IntegerField(default=3)
     Food = models.IntegerField(default=100)
     Year = models.IntegerField(default=0)
+    Phase = models.IntegerField(default=1)
     Price_discover_tile = models.IntegerField(default=20)
     PriceBuildFarm = models.IntegerField(default=50)
     Infobox = models.TextField(default="hello there-second line-third line")

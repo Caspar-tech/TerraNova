@@ -56,6 +56,23 @@
     </div>
 </div>
 
+{% if Main.Year == 10 and Main.Phase == 2 %}
+    <div class="ColumnEvent">
+        <div class="HeaderEvent"> Survival </div><br>
+        <div class="Center">
+            As the high priest predicted great droughts have struck the world.
+            Luckily you gathered more than enough food which made your tribe survive the drought.<br><br>
+
+            The hope of your tribe was that after the drought, things would get back to normal.
+            Sadly enough this proofed to be an illusion. The world around you has changed for the worse.
+            There used to be many small tribes minding there own business.
+            The drought has started a race for survival which can not be stopped.
+            It has become clear that you either eat or be eaten as tribe.
+            The other tribes have started to militarize, you must follow and prepare for war...
+        </div>
+    </div>
+{% endif %}
+
 {% if Main.StartEvent == True or Main.EndEvent == True%}
     <div class="ColumnEvent">
         <div class="HeaderEvent"> Event </div><br>

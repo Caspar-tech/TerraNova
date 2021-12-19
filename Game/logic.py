@@ -238,10 +238,12 @@ def StartEvent():
         MainGame.EventButton2 = "Defend the village"
         MainGame.StartEvent = True
     elif MainGame.Year == 10:
-        MainGame.GameEnded = True
-        if MainGame.Food > 500:
-            MainGame.GameEndedSucces = True
-            MainGame.GameEndedHighscore = True
+        if MainGame.Food < 500:
+            MainGame.GameEnded = True
+            # MainGame.GameEndedSucces = True
+            # MainGame.GameEndedHighscore = True
+        else:
+            MainGame.Phase += 1
 
     MainGame.save()
 
