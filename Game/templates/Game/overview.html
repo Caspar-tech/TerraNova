@@ -51,6 +51,9 @@
 
 <div class="Topnav">
     Food: {{ Main.Food }}
+    {% if Main.Phase > 1 %}
+        &emsp; Population: {{ Main.Population }}
+    {% endif %}
     <div class="Right">
         Year: {{ Main.Year }}
     </div>
@@ -102,7 +105,9 @@
 <center>
     <div class="ColumnCentral">
         <div class="HeaderOverview"> Yearly overview </div><br>
-        <div class="Center"> Start of year {{ Main.Year }}<br>
+        {% with LastYear=Main.Year|add:"-1" %}
+        <div class="Center"> End of year {{ LastYear }}<br>
+        {% endwith %}
             <hr><br>
             {% with GrassFood=Main.NumberOfGrassTiles|mul:Main.FoodForGrassCurrentYear WaterFood=Main.NumberOfWaterTiles|mul:Main.FoodForWaterCurrentYear FarmFood=Main.NumberOfFarmTiles|mul:Main.FoodForFarmCurrentYear %}
                 {% if Main.Year != 0 %}
@@ -117,8 +122,17 @@
             {% endwith %}
 
             {% if Main.Phase > 1 and Main.Year > 10 %}
-                Population: {{ Main.Population }} people * 3 meals a day for a year = <b>-{{ Main.Population }}</b> less food<br>
+                Consumption: {{ Main.PopulationLastYear }} people eat = <b>-{{ Main.PopulationLastYear }}</b> less food<br><br>
             {% endif %}
+
+            {% if Main.PopulationChange > 0 %}
+                Population: Due to the abundance of food your population increases with <b>{{ Main.PopulationChange }}</b>
+            {% elif Main.PopulationChange < 0 %}
+                Population: Due to the shortage of food your population decreases with <b>{{ Main.PopulationChange }}</b>
+            {% elif Main.PopulationChange == 0 %}
+                Population: There is exactly enough food, no population change occurs
+            {% endif %}
+
         </div>
     </div>
     <br>

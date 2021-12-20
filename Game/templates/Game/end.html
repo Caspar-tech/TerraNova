@@ -25,6 +25,9 @@
 
 <div class="Topnav">
     Food: {{ Main.Food }}
+    {% if Main.Phase > 1 %}
+        &emsp; Population: {{ Main.Population }}
+    {% endif %}
     <div class="Right">
         Year: {{ Main.Year }}
     </div>

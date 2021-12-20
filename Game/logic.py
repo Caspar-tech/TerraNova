@@ -11,7 +11,7 @@ def Newgrid():
     # Then it take the given number of rows and columns from the form on the website
     # Then it generates as many new squares as there are Rows * Columns
     # It randomly picks the terraintype from a list of available types
-    Square.objects.all().delete()
+    Square.objects.filter(Save=False).delete()
 
     Rows = 10
     Columns = 10
@@ -21,10 +21,10 @@ def Newgrid():
     for r in range(Rows):
         for c in range(Columns):
             RandomTerrain = random.choice(TerrainTypes)
-            Newtile = Square(Number=(r*Columns+c), Row=r, Column=c, Terrain=RandomTerrain)
+            Newtile = Square(Number=(r*Columns+c), Row=r, Column=c, Terrain=RandomTerrain, Save=False)
             Newtile.save()
 
-    Center_square = Square.objects.get(Row=(Rows/2), Column=(Columns/2))
+    Center_square = Square.objects.get(Row=(Rows/2), Column=(Columns/2), Save=False)
     Center_square.Discovered = True
     Center_square.Terrain = "Grass"
     Center_square.save()
@@ -45,8 +45,7 @@ def Newgrid():
     MainGame.Berry = False
     MainGame.Sacrifice = False
     MainGame.GameEnded = False
-    MainGame.GameEndedSucces = False
-    MainGame.GameEndedHighscore = False
+    MainGame.SubmitHighScore = False
     MainGame.save()
 
     ClearInfobox()
@@ -208,10 +207,18 @@ def NextYear():
         MainGame.FoodForWaterCurrentYear = MainGame.FoodForWater
         MainGame.FoodForFarmCurrentYear = MainGame.FoodForFarm
 
-        # Subtracting food
+        # Subtracting food and in- or decreasing population
+        MainGame.PopulationLastYear = MainGame.Population
+
         if MainGame.Phase > 1:
             MainGame.Food -= MainGame.Population
+            if MainGame.Food > 0:
+                MainGame.Population = round(MainGame.Population * 1.1)
+            elif MainGame.Food < 0:
+                MainGame.Population += MainGame.Food
+                MainGame.Food = 0
 
+        MainGame.PopulationChange = MainGame.Population - MainGame.PopulationLastYear
         MainGame.save()
     else:
         Infobox("Before starting a new year you must make a choice on the dilemma in the overview")

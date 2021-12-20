@@ -19,6 +19,8 @@ class Main(models.Model):
     Columns = models.IntegerField(default=3)
     Food = models.IntegerField(default=100)
     Population = models.IntegerField(default=100)
+    PopulationLastYear = models.IntegerField(default=100)
+    PopulationChange = models.IntegerField(default=0)
     Year = models.IntegerField(default=0)
     Phase = models.IntegerField(default=1)
     Price_discover_tile = models.IntegerField(default=20)
