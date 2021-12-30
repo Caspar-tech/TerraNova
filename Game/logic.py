@@ -364,3 +364,16 @@ def Load():
         Infobox("Game was successfully loaded")
     else:
         Infobox("There is no save game yet")
+
+def SetOccupations(FormInput):
+    # test whether the input are integers
+    try:
+        Farmers = int(FormInput.get('Farmers'))
+        Soldiers = int(FormInput.get('Soldiers'))
+    except:
+        Infobox("Please fill out real numbers")
+        return
+
+    print(type(Farmers))
+    print(Farmers)
+    print(Soldiers)

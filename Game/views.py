@@ -12,6 +12,7 @@ from .logic import (
     SetNewHighscore,
     Save,
     Load,
+    SetOccupations,
 )
 
 # Main-page render function
@@ -60,6 +61,8 @@ class MainView(ListView):
             Save()
         elif request.POST.get('Load') == 'Load':
             Load()
+        elif request.POST.get('Set occupations') == 'Set occupations':
+            SetOccupations(request.POST)
         elif request.POST.get('Next Year') == 'Next Year':
             NextYear()
             if Main.objects.get(Name="Game").StartEvent == False:

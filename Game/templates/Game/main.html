@@ -25,13 +25,25 @@
     tr {
         line-height: 0px;
     }
+
     .ColumnLeft {
         float: left;
-        width: 60%;
+        width: 30%;
         padding: 15px;
         margin-top: 15px;
         margin-right: 7px;
         margin-bottom: 15px;
+        font-size: 20px;
+    }
+
+    .ColumnCentral {
+        float: left;
+        width: 20%;
+        padding: 15px;
+        margin-top: 15px;
+        margin-right: 7px;
+        margin-bottom: 15px;
+        font-size: 20px;
     }
 
     .ColumnRight {
@@ -132,7 +144,7 @@ We use the templatetag "index" to call all the terrains from the list-->
 
 
             <div>
-                <label>What action do you want to perform?</label>
+                <label>What action do you want to perform?</label><br>
                 <select name="Tileoption" id="Tileoption">
                     <option value="Discover">Explore</option>
                     {% if Main.Phase > 1 %}
@@ -145,6 +157,24 @@ We use the templatetag "index" to call all the terrains from the list-->
         <!-- This forms takes the requested number of rows and columns and puts it trough to views >> logic >> create.py -->
 
     </div><!-- ColumnLeft -->
+
+    {% if Main.Phase > 1 %}
+        <div class="ColumnCentral">
+            -- Occupation -- <br><br>
+            <form method="POST">
+                {% csrf_token %}
+
+                    Farmers:<br>
+                    <input type="number" name="Farmers" min="0" value="0"><br><br>
+                    Soldiers:<br>
+                    <input type="number" name="Soldiers" min="0" value="0"><br><br>
+                    Idle:<br>
+                    Number<br><br>
+
+                    <input class="NewGameButton" type="Submit" name="Set occupations" value="Set occupations">
+            </form>
+        </div>
+    {% endif %}
 
     <div class="ColumnRight">
         <div class="Toolbox">
