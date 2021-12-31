@@ -35,12 +35,18 @@ def Newgrid():
     MainGame.Food = 100
     MainGame.Population = 100
     MainGame.Year = 0
+    MainGame.NextYearBlock = False
     MainGame.Phase = 1
     MainGame.FoodForGrass = 4
     MainGame.FoodForWater = 9
-    MainGame.FoodForFarm = 25
+    MainGame.FoodForFarm = 50
+    MainGame.FarmEffectiveness = 0
     MainGame.StartEvent = False
     MainGame.EndEvent = False
+    MainGame.Farmers = 0
+    MainGame.Soldiers = 0
+    MainGame.Idle = 0
+    MainGame.OccupationsAreSet = False
     MainGame.Boat = False
     MainGame.Berry = False
     MainGame.Sacrifice = False
@@ -185,43 +191,80 @@ def ClearInfobox():
 
 def NextYear():
     MainGame = Main.objects.get(Name="Game")
-    if MainGame.StartEvent != True:
-        MainGame.Year += 1
 
-        MainGame.EndEvent = False
-
-        # Adding food
-        NumberOfGrassTiles = len(Square.objects.filter(Discovered=True, Save=False).filter(Terrain="Grass"))
-        NumberOfWaterTiles = len(Square.objects.filter(Discovered=True, Save=False).filter(Terrain="Water"))
-        NumberOfFarmTiles = len(Square.objects.filter(Discovered=True, Save=False).filter(Terrain="Farm"))
-
-        MainGame.NumberOfGrassTiles = NumberOfGrassTiles
-        MainGame.NumberOfWaterTiles = NumberOfWaterTiles
-        MainGame.NumberOfFarmTiles = NumberOfFarmTiles
-
-        MainGame.Food += (NumberOfGrassTiles * MainGame.FoodForGrass)
-        MainGame.Food += (NumberOfWaterTiles * MainGame.FoodForWater)
-        MainGame.Food += (NumberOfFarmTiles * MainGame.FoodForFarm)
-
-        MainGame.FoodForGrassCurrentYear = MainGame.FoodForGrass
-        MainGame.FoodForWaterCurrentYear = MainGame.FoodForWater
-        MainGame.FoodForFarmCurrentYear = MainGame.FoodForFarm
-
-        # Subtracting food and in- or decreasing population
-        MainGame.PopulationLastYear = MainGame.Population
-
-        if MainGame.Phase > 1:
-            MainGame.Food -= MainGame.Population
-            if MainGame.Food > 0:
-                MainGame.Population = round(MainGame.Population * 1.1)
-            elif MainGame.Food < 0:
-                MainGame.Population += MainGame.Food
-                MainGame.Food = 0
-
-        MainGame.PopulationChange = MainGame.Population - MainGame.PopulationLastYear
+    if MainGame.StartEvent == True:
+        MainGame.NextYearBlock = True
         MainGame.save()
-    else:
         Infobox("Before starting a new year you must make a choice on the dilemma in the overview")
+        return
+
+    if MainGame.OccupationsAreSet == False and MainGame.Phase > 1:
+        MainGame.NextYearBlock = True
+        MainGame.save()
+        Infobox("Before starting a new year you must set the occupations of your population")
+        return
+
+    MainGame.NextYearBlock = False
+    MainGame.OccupationsAreSet = False
+
+    MainGame.Year += 1
+
+    MainGame.EndEvent = False
+
+    # Adding Water and Grass food
+    NumberOfGrassTiles = len(Square.objects.filter(Discovered=True, Save=False).filter(Terrain="Grass"))
+    NumberOfWaterTiles = len(Square.objects.filter(Discovered=True, Save=False).filter(Terrain="Water"))
+
+    MainGame.NumberOfGrassTiles = NumberOfGrassTiles
+    MainGame.NumberOfWaterTiles = NumberOfWaterTiles
+
+    MainGame.Food += (NumberOfGrassTiles * MainGame.FoodForGrass)
+    MainGame.Food += (NumberOfWaterTiles * MainGame.FoodForWater)
+
+    MainGame.FoodForGrassCurrentYear = MainGame.FoodForGrass
+    MainGame.FoodForWaterCurrentYear = MainGame.FoodForWater
+
+    # Adding Farm food
+    # Depends on how many farmers. 25 are needed per farm. Exponential effectivity.
+    Farmers = MainGame.Farmers
+    print(Farmers)
+
+    NumberOfFarmTiles = len(Square.objects.filter(Discovered=True, Save=False).filter(Terrain="Farm"))
+    print(NumberOfFarmTiles)
+
+    FarmersNeeded = NumberOfFarmTiles * 25
+    print(FarmersNeeded)
+
+    FarmerPercentage = Farmers / FarmersNeeded
+    print(FarmerPercentage)
+
+    FarmEffectiveness = FarmerPercentage * FarmerPercentage
+    if FarmEffectiveness > 1:
+        FarmEffectiveness = 1
+    print(FarmEffectiveness)
+
+    MainGame.FarmEffectiveness = FarmEffectiveness * 100
+
+    MainGame.NumberOfFarmTiles = NumberOfFarmTiles
+    MainGame.FarmFoodGained = round(NumberOfFarmTiles * MainGame.FoodForFarm * FarmEffectiveness)
+    MainGame.Food += MainGame.FarmFoodGained
+    MainGame.FoodForFarmCurrentYear = MainGame.FoodForFarm
+
+    # Subtracting food and in- or decreasing population
+    MainGame.PopulationLastYear = MainGame.Population
+
+    if MainGame.Phase > 1:
+        MainGame.Food -= MainGame.Population
+        if MainGame.Food > 0:
+            MainGame.Population += round(MainGame.Idle * 0.5)
+        elif MainGame.Food < 0:
+            MainGame.Population += MainGame.Food
+            MainGame.Food = 0
+
+    MainGame.PopulationChange = MainGame.Population - MainGame.PopulationLastYear
+    MainGame.save()
+
+    StartEvent()
 
 def StartEvent():
     MainGame = Main.objects.get(Name="Game")
@@ -371,9 +414,20 @@ def SetOccupations(FormInput):
         Farmers = int(FormInput.get('Farmers'))
         Soldiers = int(FormInput.get('Soldiers'))
     except:
-        Infobox("Please fill out real numbers")
+        Infobox("Please only use numbers when selecting the number of farmers and soldiers")
         return
 
-    print(type(Farmers))
-    print(Farmers)
-    print(Soldiers)
+    MainGame = Main.objects.get(Name="Game")
+
+    if MainGame.Population < (Farmers + Soldiers):
+        Infobox("The number of farmers and soldiers you select should always be equal too or smaller than "
+                "the seize of your population")
+        return
+
+    MainGame.Farmers = Farmers
+    MainGame.Soldiers = Soldiers
+    MainGame.Idle = MainGame.Population - Farmers - Soldiers
+
+    MainGame.OccupationsAreSet = True
+
+    MainGame.save()

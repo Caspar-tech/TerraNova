@@ -165,11 +165,11 @@ We use the templatetag "index" to call all the terrains from the list-->
                 {% csrf_token %}
 
                     Farmers:<br>
-                    <input type="number" name="Farmers" min="0" value="0"><br><br>
+                    <input type="number" name="Farmers" min="0" value={{ Main.Farmers }}><br><br>
                     Soldiers:<br>
-                    <input type="number" name="Soldiers" min="0" value="0"><br><br>
+                    <input type="number" name="Soldiers" min="0" value={{ Main.Soldiers }}><br><br>
                     Idle:<br>
-                    Number<br><br>
+                    {{ Main.Idle }}<br><br>
 
                     <input class="NewGameButton" type="Submit" name="Set occupations" value="Set occupations">
             </form>

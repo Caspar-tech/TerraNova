@@ -65,8 +65,7 @@ class MainView(ListView):
             SetOccupations(request.POST)
         elif request.POST.get('Next Year') == 'Next Year':
             NextYear()
-            if Main.objects.get(Name="Game").StartEvent == False:
-                StartEvent()
+            if Main.objects.get(Name="Game").NextYearBlock == False:
                 return redirect('overview')
         elif request.POST.get('End Game') == 'End Game':
             return redirect('end')

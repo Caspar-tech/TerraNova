@@ -109,28 +109,30 @@
         <div class="Center"> End of year {{ LastYear }}<br>
         {% endwith %}
             <hr><br>
-            {% with GrassFood=Main.NumberOfGrassTiles|mul:Main.FoodForGrassCurrentYear WaterFood=Main.NumberOfWaterTiles|mul:Main.FoodForWaterCurrentYear FarmFood=Main.NumberOfFarmTiles|mul:Main.FoodForFarmCurrentYear %}
+            {% with GrassFood=Main.NumberOfGrassTiles|mul:Main.FoodForGrassCurrentYear WaterFood=Main.NumberOfWaterTiles|mul:Main.FoodForWaterCurrentYear %}
                 {% if Main.Year != 0 %}
                     Grass: {{ Main.NumberOfGrassTiles }} tiles * {{ Main.FoodForGrassCurrentYear }} berries = <b>{{ GrassFood }}</b> extra food<br>
                     {% if Main.Boat == True %}
                         Water: {{ Main.NumberOfWaterTiles }} tiles * {{ Main.FoodForWaterCurrentYear }} fish = <b>{{ WaterFood }}</b> extra food<br>
                     {% endif %}
                     {% if Main.NumberOfFarmTiles > 0 %}
-                        Farms: {{ Main.NumberOfFarmTiles }} tiles * {{ Main.FoodForFarmCurrentYear }} crops = <b>{{ FarmFood }}</b> extra food<br>
+                        Farms: {{ Main.NumberOfFarmTiles }} farms * {{ Main.FoodForFarmCurrentYear }} crops * {{ Main.FarmEffectiveness }} percent effectiveness = <b>{{ Main.FarmFoodGained }}</b> extra food<br>
                     {% endif %}
                 {% endif %}
             {% endwith %}
 
             {% if Main.Phase > 1 and Main.Year > 10 %}
-                Consumption: {{ Main.PopulationLastYear }} people eat = <b>-{{ Main.PopulationLastYear }}</b> less food<br><br>
-            {% endif %}
+                Consumption: {{ Main.PopulationLastYear }} people eat = <b>-{{ Main.PopulationLastYear }}</b> less food<br><br><hr><br>
 
-            {% if Main.PopulationChange > 0 %}
-                Population: Due to the abundance of food your population increases with <b>{{ Main.PopulationChange }}</b>
-            {% elif Main.PopulationChange < 0 %}
-                Population: Due to the shortage of food your population decreases with <b>{{ Main.PopulationChange }}</b>
-            {% elif Main.PopulationChange == 0 %}
-                Population: There is exactly enough food, no population change occurs
+                {% if Main.PopulationChange > 0 %}
+                    Population: Being well-fed your idle population is blessed with <b>{{ Main.PopulationChange }} babies</b>
+                {% elif Main.PopulationChange < 0 %}
+                    Population: Due to the shortage of food your population decreases with <b>{{ Main.PopulationChange }}</b>
+                {% elif Main.Idle == 0 %}
+                    Population: There is nobody idle in the population, no population change occurs
+                {% elif Main.PopulationChange == 0 %}
+                    Population: There is exactly enough food, no population change occurs
+                {% endif %}
             {% endif %}
 
         </div>
