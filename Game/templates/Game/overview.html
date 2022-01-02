@@ -17,10 +17,19 @@
         color: #F2EDD7;
     }
 
+    .War {
+        background-color: #D35D6E;
+        color: #0F0E0E;
+    }
+
     .HeaderEvent {
         font-size: 25px;
         text-align: center;
         color: #F2EDD7;
+    }
+
+    .BlackLetters {
+        color: #0F0E0E;
     }
 
     .ButtonEvent {
@@ -111,19 +120,25 @@
             <hr><br>
             {% with GrassFood=Main.NumberOfGrassTiles|mul:Main.FoodForGrassCurrentYear WaterFood=Main.NumberOfWaterTiles|mul:Main.FoodForWaterCurrentYear %}
                 {% if Main.Year != 0 %}
-                    Grass: {{ Main.NumberOfGrassTiles }} tiles * {{ Main.FoodForGrassCurrentYear }} berries = <b>{{ GrassFood }}</b> extra food<br>
+                    Grass: {{ Main.NumberOfGrassTiles }} tiles * {{ Main.FoodForGrassCurrentYear }} berries = <b>{{ GrassFood }}</b> extra food
+
                     {% if Main.Boat == True %}
-                        Water: {{ Main.NumberOfWaterTiles }} tiles * {{ Main.FoodForWaterCurrentYear }} fish = <b>{{ WaterFood }}</b> extra food<br>
+                        <br>Water: {{ Main.NumberOfWaterTiles }} tiles * {{ Main.FoodForWaterCurrentYear }} fish = <b>{{ WaterFood }}</b> extra food
                     {% endif %}
+
                     {% if Main.NumberOfFarmTiles > 0 %}
-                        Farms: {{ Main.NumberOfFarmTiles }} farms * {{ Main.FoodForFarmCurrentYear }} crops * {{ Main.FarmEffectiveness }} percent effectiveness = <b>{{ Main.FarmFoodGained }}</b> extra food<br>
+                        <br>Farms: {{ Main.NumberOfFarmTiles }} farms * {{ Main.FoodForFarmCurrentYear }} crops * {{ Main.FarmEffectiveness }} percent effectiveness = <b>{{ Main.FarmFoodGained }}</b> extra food
                     {% endif %}
+
+                    {% if Main.Phase > 1 and Main.Year > 10 %}
+                        <br>Consumption: {{ Main.PopulationLastYear }} people eat = <b>-{{ Main.PopulationLastYear }}</b> less food
+                    {% endif %}
+                    <br><br> Total Change in food: <b>{{ Main.FoodGained }}</b><br>
                 {% endif %}
             {% endwith %}
 
             {% if Main.Phase > 1 and Main.Year > 10 %}
-                Consumption: {{ Main.PopulationLastYear }} people eat = <b>-{{ Main.PopulationLastYear }}</b> less food<br><br><hr><br>
-
+                <br><hr><br>
                 {% if Main.PopulationChange > 0 %}
                     Population: Being well-fed your idle population is blessed with <b>{{ Main.PopulationChange }} babies</b>
                 {% elif Main.PopulationChange < 0 %}
@@ -133,11 +148,20 @@
                 {% elif Main.PopulationChange == 0 %}
                     Population: There is exactly enough food, no population change occurs
                 {% endif %}
+                <br>
             {% endif %}
 
         </div>
     </div>
-    <br>
+
+    <div class="ColumnEvent War">
+        <div class="HeaderEvent BlackLetters"> War </div><br>
+        <div class="Center">
+            A group of evil looking armed men appear over the hills around your village.
+            You recognize the flag they are carrying. It is one of the villages nearby.
+            Their leader sits on the horse in front of the troops.
+        </div>
+    </div>
 
     <div class="ColumnCentral">
         <div class="HeaderOverview"> Explorations </div><br>

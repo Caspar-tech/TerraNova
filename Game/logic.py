@@ -115,22 +115,40 @@ def ClickSquare(FormInput):
     elif Tileoption == "Build Farm":
         MainGame = Main.objects.get(Name="Game")
         Tile = Square.objects.get(Number=Clicked_square, Save=False)
-        if Tile.Discovered == True:
 
-            if Tile.Terrain == "Grass":
-
-                if MainGame.PriceBuildFarm <= MainGame.Food:
-                    Tile.Terrain = "Farm"
-                    Tile.save()
-                    MainGame.Food -= MainGame.PriceBuildFarm
-                    MainGame.save()
-                    Infobox("You built a farm")
-                else:
-                    Infobox("Insufficient food ({0}) to build a farm".format(Main.objects.get(Name="Game").PriceBuildFarm))
-            else:
-                Infobox("You can only build a farm on an empty grass tile")
-        else:
+        if Tile.Discovered == False:
             Infobox("You can only build a farm on an explored tile")
+            return
+
+        if Tile.Terrain != "Grass":
+            Infobox("You can only build a farm on an empty grass tile")
+            return
+
+        if MainGame.PriceBuildFarm > MainGame.Food:
+            Infobox("Insufficient food ({0}) to build a farm".format(Main.objects.get(Name="Game").PriceBuildFarm))
+            return
+
+        Tile.Terrain = "Farm"
+        Tile.save()
+        MainGame.Food -= MainGame.PriceBuildFarm
+        MainGame.save()
+        Infobox("You built a farm")
+    elif Tileoption == "Demolish Farm":
+        MainGame = Main.objects.get(Name="Game")
+        Tile = Square.objects.get(Number=Clicked_square, Save=False)
+
+        if Tile.Discovered == False:
+            Infobox("You can only demolish a farm on an explored tile")
+            return
+
+        if Tile.Terrain != "Farm":
+            Infobox("You can only demolish a farm on a tile your previously build a farm on")
+            return
+
+        Tile.Terrain = "Grass"
+        Tile.save()
+        MainGame.save()
+        Infobox("You demolished a farm")
 
 def Who_are_my_neighbours(Number):
     # When a tile is clicked on the grid in the html template
@@ -211,6 +229,7 @@ def NextYear():
 
     MainGame.EndEvent = False
 
+    FormerFood = MainGame.Food
     # Adding Water and Grass food
     NumberOfGrassTiles = len(Square.objects.filter(Discovered=True, Save=False).filter(Terrain="Grass"))
     NumberOfWaterTiles = len(Square.objects.filter(Discovered=True, Save=False).filter(Terrain="Water"))
@@ -227,28 +246,23 @@ def NextYear():
     # Adding Farm food
     # Depends on how many farmers. 25 are needed per farm. Exponential effectivity.
     Farmers = MainGame.Farmers
-    print(Farmers)
-
     NumberOfFarmTiles = len(Square.objects.filter(Discovered=True, Save=False).filter(Terrain="Farm"))
-    print(NumberOfFarmTiles)
 
-    FarmersNeeded = NumberOfFarmTiles * 25
-    print(FarmersNeeded)
+    if NumberOfFarmTiles > 0:
+        FarmersNeeded = NumberOfFarmTiles * 25
 
-    FarmerPercentage = Farmers / FarmersNeeded
-    print(FarmerPercentage)
+        FarmerPercentage = Farmers / FarmersNeeded
 
-    FarmEffectiveness = FarmerPercentage * FarmerPercentage
-    if FarmEffectiveness > 1:
-        FarmEffectiveness = 1
-    print(FarmEffectiveness)
+        FarmEffectiveness = FarmerPercentage * FarmerPercentage
+        if FarmEffectiveness > 1:
+            FarmEffectiveness = 1
 
-    MainGame.FarmEffectiveness = FarmEffectiveness * 100
+        MainGame.FarmEffectiveness = FarmEffectiveness * 100
 
-    MainGame.NumberOfFarmTiles = NumberOfFarmTiles
-    MainGame.FarmFoodGained = round(NumberOfFarmTiles * MainGame.FoodForFarm * FarmEffectiveness)
-    MainGame.Food += MainGame.FarmFoodGained
-    MainGame.FoodForFarmCurrentYear = MainGame.FoodForFarm
+        MainGame.NumberOfFarmTiles = NumberOfFarmTiles
+        MainGame.FarmFoodGained = round(NumberOfFarmTiles * MainGame.FoodForFarm * FarmEffectiveness)
+        MainGame.Food += MainGame.FarmFoodGained
+        MainGame.FoodForFarmCurrentYear = MainGame.FoodForFarm
 
     # Subtracting food and in- or decreasing population
     MainGame.PopulationLastYear = MainGame.Population
@@ -262,6 +276,7 @@ def NextYear():
             MainGame.Food = 0
 
     MainGame.PopulationChange = MainGame.Population - MainGame.PopulationLastYear
+    MainGame.FoodGained = MainGame.Food - FormerFood
     MainGame.save()
 
     StartEvent()

@@ -38,6 +38,7 @@ class Main(models.Model):
     FoodForFarmCurrentYear = models.IntegerField(default=50)
     FarmEffectiveness = models.IntegerField(default=0)
     FarmFoodGained = models.IntegerField(default=0)
+    FoodGained = models.IntegerField(default=0)
     Idle = models.IntegerField(default=0)
     Farmers = models.IntegerField(default=0)
     Soldiers = models.IntegerField(default=0)
