@@ -52,6 +52,7 @@ def Newgrid():
     MainGame.Sacrifice = False
     MainGame.GameEnded = False
     MainGame.SubmitHighScore = False
+    MainGame.War = False
     MainGame.save()
 
     ClearInfobox()
@@ -281,6 +282,9 @@ def NextYear():
 
     StartEvent()
 
+    # After the year is rounded up, there is the possibility of a war (phase > 0)
+    War()
+
 def StartEvent():
     MainGame = Main.objects.get(Name="Game")
 
@@ -444,5 +448,43 @@ def SetOccupations(FormInput):
     MainGame.Idle = MainGame.Population - Farmers - Soldiers
 
     MainGame.OccupationsAreSet = True
+
+    MainGame.save()
+
+def War():
+    MainGame = Main.objects.get(Name="Game")
+    MainGame.War = False
+
+    if MainGame.Phase == 1:
+        MainGame.save()
+        return
+
+    WarChance = random.randint(1, 5)
+    print("Warchance:", WarChance)
+
+    # if WarChance != 1:
+    #     MainGame.save()
+    #     return
+
+    MainGame.War = True
+
+    OpponentStrength = random.randint(20, 75)
+    print("Opp strength:", OpponentStrength)
+    OpponentSoldiers = round(MainGame.Population * (OpponentStrength / 100))
+    print("Opp soldiers:", OpponentSoldiers)
+
+    if MainGame.Soldiers >= OpponentSoldiers:
+        MainGame.WarWon = True
+        print("You win the war")
+    else:
+        MainGame.WarWon = False
+        LooseRatio = (OpponentSoldiers / MainGame.Soldiers) - 1
+        print("Loose ratio:", LooseRatio)
+        if LooseRatio < 0.1:
+            print("Small loss")
+        elif LooseRatio < 0.3:
+            print("significant loss")
+        else:
+            print("Huge loss")
 
     MainGame.save()

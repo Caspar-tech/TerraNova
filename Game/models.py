@@ -54,7 +54,11 @@ class Main(models.Model):
     Sacrifice = models.BooleanField(default=False)
     GameEnded = models.BooleanField(default=False)
     SubmitHighscore = models.BooleanField(default=False)
-    Testnumber = models.IntegerField(default=0)
+    War = models.BooleanField(default=False)
+    WarWon = models.BooleanField(default=False)
+    FoodLost = models.IntegerField(default=0)
+    PopulationKilled = models.IntegerField(default=0)
+    TilesUndiscovered = models.IntegerField(default=0)
 
     def __str__(self):
         return str(self.Name)

@@ -154,14 +154,22 @@
         </div>
     </div>
 
-    <div class="ColumnEvent War">
-        <div class="HeaderEvent BlackLetters"> War </div><br>
-        <div class="Center">
-            A group of evil looking armed men appear over the hills around your village.
-            You recognize the flag they are carrying. It is one of the villages nearby.
-            Their leader sits on the horse in front of the troops.
+    {% if Main.War == True %}
+        <div class="ColumnEvent War">
+            <div class="HeaderEvent BlackLetters"> War </div><br>
+            <div class="Center">
+                A group of evil looking armed men appear over the hills around your village.
+                You recognize the flag they are carrying. It is one of the villages nearby.
+                Their leader sits on the horse in front of the troops. <br><br>
+
+                {% if Main.WarWon == True %}
+                    But your army of {{ Main.Soldiers }} is bigger, you win.
+                {% else %}
+                    Your army of {{ Main.Soldiers }} is smaller, you loose.
+                {% endif %}
+            </div>
         </div>
-    </div>
+    {% endif %}
 
     <div class="ColumnCentral">
         <div class="HeaderOverview"> Explorations </div><br>
