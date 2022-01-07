@@ -55,10 +55,11 @@ class Main(models.Model):
     GameEnded = models.BooleanField(default=False)
     SubmitHighscore = models.BooleanField(default=False)
     War = models.BooleanField(default=False)
-    WarWon = models.BooleanField(default=False)
-    FoodLost = models.IntegerField(default=0)
-    PopulationKilled = models.IntegerField(default=0)
-    TilesUndiscovered = models.IntegerField(default=0)
+    WarOpponentSoldiers = models.IntegerField(default=0)
+    WarOutcome = models.TextField(default="Win")
+    WarFoodLost = models.IntegerField(default=0)
+    WarPopulationLost = models.IntegerField(default=0)
+    WarTilesLost = models.IntegerField(default=0)
 
     def __str__(self):
         return str(self.Name)

@@ -158,14 +158,31 @@
         <div class="ColumnEvent War">
             <div class="HeaderEvent BlackLetters"> War </div><br>
             <div class="Center">
-                A group of evil looking armed men appear over the hills around your village.
+                A group of <b>{{ Main.WarOpponentSoldiers }}</b> evil looking armed men appear over the hills around your village.
                 You recognize the flag they are carrying. It is one of the villages nearby.
-                Their leader sits on the horse in front of the troops. <br><br>
+                Their leader sits on a horse in front of the troops.<br><br>
 
-                {% if Main.WarWon == True %}
-                    But your army of {{ Main.Soldiers }} is bigger, you win.
-                {% else %}
-                    Your army of {{ Main.Soldiers }} is smaller, you loose.
+                {% if Main.WarOutcome == "Win" %}
+                    But after seeing the size of your <b>{{ Main.Soldiers }}</b> men army the opponent doesn't look so sure anymore.
+                    After a short while chaos breaks out among their ranks and the enemy flees back into the hills.
+                    That night a big feast is held in your honor. Your wise choices have prevented armed conflict.
+                {% elif Main.WarOutcome == "Small loss" %}
+                    Your army of <b>{{ Main.Soldiers }}</b> men is just slightly smaller. It results in a <b>small loss</b>.
+                    To prevent defeat you retreat behind the palisades. The enemy storms your lines but doesn't brake trough.
+                    After a while the opponent gives up and retreats. They do take <b>{{ Main.WarFoodLost }}</b> food which
+                    was not stored safely in the village. Sadly enough <b>{{ Main.WarPopulationLost }}</b> men are killed. But it could
+                    have been so much worse...
+                {% elif Main.WarOutcome == "Significant loss" %}
+                    Your army of <b>{{ Main.Soldiers }}</b> men is just quite a bit smaller. It results in a <b>significant loss</b>.
+                    After a heavy fight with many casualties you flee from the village and hide in the hills.
+                    The enemy takes <b>{{ Main.WarFoodLost }}</b> food which was not hidden well enough. After the enemy soldiers
+                    have left you go back to the village.
+                    It becomes clear that <b>{{ Main.WarPopulationLost }}</b> people have been killed.
+                {% elif Main.WarOutcome == "Huge loss" %}
+                    Your army of <b>{{ Main.Soldiers }}</b> men is much smaller. It results in a <b>huge loss</b>.
+                    After a short but deathly fight you surrender your village.
+                    The enemy takes <b>{{ Main.WarFoodLost }}</b> food which is all they can carry. The war has resulted
+                    in a horrible massacre, <b>{{ Main.WarPopulationLost }}</b> people have been killed.
                 {% endif %}
             </div>
         </div>

@@ -470,21 +470,41 @@ def War():
 
     OpponentStrength = random.randint(20, 75)
     print("Opp strength:", OpponentStrength)
-    OpponentSoldiers = round(MainGame.Population * (OpponentStrength / 100))
-    print("Opp soldiers:", OpponentSoldiers)
+    MainGame.WarOpponentSoldiers = round(MainGame.Population * (OpponentStrength / 100))
+    print("Opp soldiers:", MainGame.WarOpponentSoldiers)
 
-    if MainGame.Soldiers >= OpponentSoldiers:
-        MainGame.WarWon = True
+    if MainGame.Soldiers >= MainGame.WarOpponentSoldiers:
+        MainGame.WarOutcome = "Win"
         print("You win the war")
     else:
         MainGame.WarWon = False
-        LooseRatio = (OpponentSoldiers / MainGame.Soldiers) - 1
+        try:
+            LooseRatio = (MainGame.WarOpponentSoldiers / MainGame.Soldiers) - 1
+        except:
+            LooseRatio = 2
         print("Loose ratio:", LooseRatio)
-        if LooseRatio < 0.1:
-            print("Small loss")
-        elif LooseRatio < 0.3:
-            print("significant loss")
+        if LooseRatio < 0.3:
+            MainGame.WarOutcome = "Small loss"
+            MainGame.WarFoodLost = round(MainGame.Food * 0.2)
+            MainGame.WarPopulationLost = round(MainGame.Population * 0.02)
+        elif LooseRatio < 0.6:
+            MainGame.WarOutcome = "Significant loss"
+            MainGame.WarFoodLost = round(MainGame.Food * 0.4)
+            MainGame.WarPopulationLost = round(MainGame.Population * 0.1)
         else:
-            print("Huge loss")
+            MainGame.WarOutcome = "Huge loss"
+            MainGame.WarFoodLost = round(MainGame.Food * 0.6)
+            MainGame.WarPopulationLost = round(MainGame.Population * 0.3)
+
+            if len(Square.objects.filter(Save=False, Discovered=True)) > 4:
+                LostTiles = random.choices(Square.objects.filter(Save=False, Discovered=True), k=5)
+
+                for n in LostTiles:
+                    n.Discovered = False
+                    n.save()
+
+
+        MainGame.Food -= MainGame.WarFoodLost
+        MainGame.Population -= MainGame.WarPopulationLost
 
     MainGame.save()
