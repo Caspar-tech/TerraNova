@@ -33,7 +33,6 @@
         margin-top: 15px;
         margin-right: 7px;
         margin-bottom: 15px;
-        font-size: 20px;
     }
 
     .ColumnCentral {
@@ -43,7 +42,6 @@
         margin-top: 15px;
         margin-right: 7px;
         margin-bottom: 15px;
-        font-size: 20px;
     }
 
     .ColumnRight {
@@ -71,6 +69,7 @@
         padding: 5px;
         border: 2px solid #3A6351;
         overflow: auto;
+        font-size: 17px;
     }
 
     .Tile  {
@@ -94,6 +93,25 @@
     .Undiscovered {
         background-color: #A0937D;
     }
+
+    .OccupationInput {
+        background-color: #F2EDD7;
+        font-size: 20px;
+        color: #3A6351;
+        width: 200px;
+        padding: 3px;
+        border: 2px solid #3A6351;
+    }
+
+     .ActionInput {
+        background-color: #A0937D;
+        font-size: 20px;
+        color: #F2EDD7;
+        width: 200px;
+        padding: 3px;
+        border: 2px solid #3A6351;
+    }
+
 </style>
 
 <h1>Terra Nova - World map
@@ -145,7 +163,7 @@ We use the templatetag "index" to call all the terrains from the list-->
 
             <div>
                 <label>What action do you want to perform?</label><br>
-                <select name="Tileoption" id="Tileoption">
+                <select class="ActionInput" name="Tileoption" id="Tileoption">
                     <option value="Discover">Explore</option>
                     {% if Main.Phase > 1 %}
                         <option value="Build Farm">Build Farm</option>
@@ -166,13 +184,15 @@ We use the templatetag "index" to call all the terrains from the list-->
                 {% csrf_token %}
 
                     Farmers:<br>
-                    <input type="number" name="Farmers" min="0" value={{ Main.Farmers }}><br><br>
+                    <input class="OccupationInput" type="number" name="Farmers" min="0" value={{ Main.Farmers }}><br><br>
                     Soldiers:<br>
-                    <input type="number" name="Soldiers" min="0" value={{ Main.Soldiers }}><br><br>
+                    <input class="OccupationInput" type="number" name="Soldiers" min="0" value={{ Main.Soldiers }}><br><br>
                     Idle:<br>
-                    {{ Main.Idle }}<br><br>
+                    <div class="OccupationInput">
+                        {{ Main.Idle }}
+                    </div>
 
-                    <input class="NewGameButton" type="Submit" name="Set occupations" value="Set occupations">
+                    <br><br><input class="NewGameButton" type="Submit" name="Set occupations" value="Set occupations">
             </form>
         </div>
     {% endif %}

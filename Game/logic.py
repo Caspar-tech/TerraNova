@@ -404,7 +404,7 @@ def Save():
     SaveGame.Name = "Save"
     SaveGame.save()
 
-    Infobox("Game was successfully saved")
+    Infobox("Game was saved successfully")
 
 def Load():
     if Main.objects.filter(Name="Save").exists():
@@ -423,7 +423,7 @@ def Load():
         MainGame.Name = "Game"
         MainGame.save()
 
-        Infobox("Game was successfully loaded")
+        Infobox("Game was loaded successfully ")
     else:
         Infobox("There is no save game yet")
 
@@ -460,29 +460,24 @@ def War():
         return
 
     WarChance = random.randint(1, 5)
-    print("Warchance:", WarChance)
 
-    # if WarChance != 1:
-    #     MainGame.save()
-    #     return
+    if WarChance != 1:
+        MainGame.save()
+        return
 
     MainGame.War = True
 
     OpponentStrength = random.randint(20, 75)
-    print("Opp strength:", OpponentStrength)
     MainGame.WarOpponentSoldiers = round(MainGame.Population * (OpponentStrength / 100))
-    print("Opp soldiers:", MainGame.WarOpponentSoldiers)
 
     if MainGame.Soldiers >= MainGame.WarOpponentSoldiers:
         MainGame.WarOutcome = "Win"
-        print("You win the war")
     else:
         MainGame.WarWon = False
         try:
             LooseRatio = (MainGame.WarOpponentSoldiers / MainGame.Soldiers) - 1
         except:
             LooseRatio = 2
-        print("Loose ratio:", LooseRatio)
         if LooseRatio < 0.3:
             MainGame.WarOutcome = "Small loss"
             MainGame.WarFoodLost = round(MainGame.Food * 0.2)
@@ -500,9 +495,10 @@ def War():
                 LostTiles = random.choices(Square.objects.filter(Save=False, Discovered=True), k=5)
 
                 for n in LostTiles:
+                    if n.Terrain == "Farm":
+                        n.Terrain = "Grass"
                     n.Discovered = False
                     n.save()
-
 
         MainGame.Food -= MainGame.WarFoodLost
         MainGame.Population -= MainGame.WarPopulationLost
