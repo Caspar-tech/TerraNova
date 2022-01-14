@@ -322,24 +322,42 @@ def StartEvent():
             MainGame.Phase += 1
 
     if MainGame.Year > 10:
-        EventList = (Main.objects.get(Name="Game").EventList).split("-")
 
-        print(len(EventList))
-
-        if len(EventList) == 0:
+        # 1 in 5 times we pick one of the events that has not happened yet.
+        # Make from a textfield in the model a list and than reverse again
+        if MainGame.EventList == "":
             return
 
-        EventNumber = random.choice(EventList)
-        print(EventNumber)
+        if random.randint(1, 5) != 1:
+            return
+
+        EventList = (MainGame.EventList).split("-")
+
+        MainGame.CurrentEvent = random.choice(EventList)
 
         EventListString = ""
         for i in EventList:
-            if i != EventNumber:
+            if i != MainGame.CurrentEvent:
                 EventListString += i + "-"
         EventListString = EventListString[:-1]
 
         MainGame.EventList = EventListString
-        MainGame.save()
+
+        ### DELETE after testing
+        MainGame.CurrentEvent = "1"
+
+        # Now follow the actual events
+        if MainGame.CurrentEvent == "1":
+            MainGame.TextEvent = "An old man in a white robe visits your village. He says he has spend his life " \
+                                 "studying the art of putting words into writing. This sounds very useful to you. " \
+                                 "Often you forget where you placed your sword. If you could just write it down it " \
+                                 "would save you many hours of searching. The old man offers you to teach you one " \
+                                 "script. Which do you want to learn?"
+            MainGame.EventButton1 = "Sumerian Cuneiform"
+            MainGame.EventButton2 = "Akkadian Cuneiform"
+            MainGame.StartEvent = True
+
+    MainGame.save()
 
 def EndEvent(FormInput):
     MainGame = Main.objects.get(Name="Game")
@@ -389,6 +407,19 @@ def EndEvent(FormInput):
                                     "They take 100 food. " \
                                     "But Luckily the vikings are on a tight schedule, no time to burn your village. "
             MainGame.Food -= 100
+    elif MainGame.CurrentEvent == "1":
+        MainGame.StartEvent = False
+        MainGame.EndEvent = True
+        if FormInput.get("EventButton") == "EventButton1":
+            MainGame.TextEndEvent = "The writing skills you have been taught proof to be very useful. You write down " \
+                                    "instructions how to plough fields and what army formations have proven to be most " \
+                                    "effective. But there is an itching feeling that writing could be done even more " \
+                                    "effective. You are just not smart enough to improve it yourself. And where did " \
+                                    "you place your sword…"
+        elif FormInput.get("EventButton") == "EventButton2":
+            MainGame.TextEndEvent = "The writing skills you have been taught proof to be very useful. You write down " \
+                                    "instructions how to plough fields and what army formations have proven to be most " \
+                                    "effective. You are clearly using the state of the art writing system."
 
     MainGame.save()
 

@@ -50,6 +50,7 @@ class Main(models.Model):
     EventButton1 = models.TextField(default="B1")
     EventButton2 = models.TextField(default="B2")
     EventList = models.TextField(default="1-2-3-4-5-6-7-8-9-10")
+    CurrentEvent = models.TextField(default="0")
     Boat = models.BooleanField(default=False)
     Berry = models.BooleanField(default=False)
     Sacrifice = models.BooleanField(default=False)
