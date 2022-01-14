@@ -43,6 +43,7 @@ def Newgrid():
     MainGame.FarmEffectiveness = 0
     MainGame.StartEvent = False
     MainGame.EndEvent = False
+    MainGame.EventList = "1-2-3-4-5-6-7-8-9-10"
     MainGame.Farmers = 0
     MainGame.Soldiers = 0
     MainGame.Idle = 0
@@ -320,7 +321,25 @@ def StartEvent():
         else:
             MainGame.Phase += 1
 
-    MainGame.save()
+    if MainGame.Year > 10:
+        EventList = (Main.objects.get(Name="Game").EventList).split("-")
+
+        print(len(EventList))
+
+        if len(EventList) == 0:
+            return
+
+        EventNumber = random.choice(EventList)
+        print(EventNumber)
+
+        EventListString = ""
+        for i in EventList:
+            if i != EventNumber:
+                EventListString += i + "-"
+        EventListString = EventListString[:-1]
+
+        MainGame.EventList = EventListString
+        MainGame.save()
 
 def EndEvent(FormInput):
     MainGame = Main.objects.get(Name="Game")
