@@ -46,11 +46,17 @@ def Newgrid():
     MainGame.EventList = "1-2-3-4-5-6-7-8-9-10"
     MainGame.Farmers = 0
     MainGame.Soldiers = 0
+    MainGame.SoldiersEffectiveness = 100
     MainGame.Idle = 0
     MainGame.OccupationsAreSet = False
     MainGame.Boat = False
     MainGame.Berry = False
     MainGame.Sacrifice = False
+    MainGame.Writing = ""
+    MainGame.Pyramid = False
+    MainGame.Trojan = False
+    MainGame.Codex = False
+    MainGame.Smith = ""
     MainGame.GameEnded = False
     MainGame.SubmitHighScore = False
     MainGame.War = False
@@ -329,7 +335,9 @@ def StartEvent():
             return
 
         if random.randint(1, 5) != 1:
-            return
+            ### DELETE after testing
+            # return
+            pass
 
         EventList = (MainGame.EventList).split("-")
 
@@ -344,7 +352,7 @@ def StartEvent():
         MainGame.EventList = EventListString
 
         ### DELETE after testing
-        MainGame.CurrentEvent = "1"
+        MainGame.CurrentEvent = "5"
 
         # Now follow the actual events
         if MainGame.CurrentEvent == "1":
@@ -355,6 +363,46 @@ def StartEvent():
                                  "script. Which do you want to learn?"
             MainGame.EventButton1 = "Sumerian Cuneiform"
             MainGame.EventButton2 = "Akkadian Cuneiform"
+            MainGame.StartEvent = True
+        elif MainGame.CurrentEvent == "2":
+            MainGame.TextEvent = "During one of your travels you meet a man named Imhotep. He says he is an architect." \
+                                 " Which turns out to be a fancy word for someone who thinks of houses but does not " \
+                                 "actually build them himself. He offers to build you a triangular burial tomb."
+            MainGame.EventButton1 = "Yes"
+            MainGame.EventButton2 = "No"
+            MainGame.StartEvent = True
+        elif MainGame.CurrentEvent == "3":
+            MainGame.TextEvent = "This week two messengers arrived in your village. One is send by a king named" \
+                                 " Priamus and the other by a great leader called Agamemnon. Something about someone’s " \
+                                 "wife being stolen and now everybody is upset. Both messengers humbly ask you to " \
+                                 "support their cause in the upcoming war. Your soldiers could use some training so " \
+                                 "why not. Which king will you support?"
+            MainGame.EventButton1 = "Priamus"
+            MainGame.EventButton2 = "Agamemnon"
+            MainGame.StartEvent = True
+        elif MainGame.CurrentEvent == "4":
+            MainGame.TextEvent = "One day a special envoy of king Hammurabi presents himself to you. He tells " \
+                                 "about a very useful tool that has been developed: the codex. This is a book " \
+                                 "that contains all the rules of the land. The envoy tells you that all great " \
+                                 "leaders have a codex these days. Are you interested in receiving a copy " \
+                                 "and declaring it law?"
+            MainGame.EventButton1 = "Yes"
+            MainGame.EventButton2 = "No"
+            MainGame.StartEvent = True
+        elif MainGame.CurrentEvent == "5":
+            MainGame.TextEvent = "A strong muscled man arrives in your village. His traveling party was raided by " \
+                                 "bandits and he only narrowly escaped death. The friendly leader you are, you " \
+                                 "offer the man food and shelter. After a while he finds back his strength and " \
+                                 "offers you a gift in return. He will let you in on the knowledge of bronze or" \
+                                 " copper making to replace your leather and stone outfits. " \
+                                 "Which process you find most interesting?"
+            MainGame.EventButton1 = "Bronze"
+            MainGame.EventButton2 = "Copper"
+            MainGame.StartEvent = True
+        elif MainGame.CurrentEvent == "6":
+            MainGame.TextEvent = ""
+            MainGame.EventButton1 = ""
+            MainGame.EventButton2 = ""
             MainGame.StartEvent = True
 
     MainGame.save()
@@ -416,10 +464,88 @@ def EndEvent(FormInput):
                                     "effective. But there is an itching feeling that writing could be done even more " \
                                     "effective. You are just not smart enough to improve it yourself. And where did " \
                                     "you place your sword…"
+            MainGame.Writing = "Sumerian Cuneiform"
+            MainGame.FoodForFarm += 5
+            MainGame.SoldiersEffectiveness += 5
         elif FormInput.get("EventButton") == "EventButton2":
             MainGame.TextEndEvent = "The writing skills you have been taught proof to be very useful. You write down " \
                                     "instructions how to plough fields and what army formations have proven to be most " \
                                     "effective. You are clearly using the state of the art writing system."
+            MainGame.Writing = "Akkadian Cuneiform"
+            MainGame.FoodForFarm += 10
+            MainGame.SoldiersEffectiveness += 10
+    elif MainGame.CurrentEvent == "2":
+        MainGame.StartEvent = False
+        MainGame.EndEvent = True
+        if FormInput.get("EventButton") == "EventButton1":
+            MainGame.TextEndEvent = "Wow that looks great! Some villagers actually call it a wonder. And it is a very" \
+                                    " comforting thought that your future corps will have a safe place to remain for" \
+                                    " the rest of human existence. Just too bad that 20% of your population died" \
+                                    " during the building of the pyramid as - volunteer -"
+            MainGame.Pyramid = True
+            MainGame.Population = round(MainGame.Population * 0.8)
+        elif FormInput.get("EventButton") == "EventButton2":
+            MainGame.TextEndEvent = "Seriously? You don’t want a pyramid? Architect Imhotep reacts unbelievingly. " \
+                                    "But you don’t care. They can just put your future dead body in a Megaslithos. " \
+                                    "That is good enough for you."
+    elif MainGame.CurrentEvent == "3":
+        MainGame.StartEvent = False
+        MainGame.EndEvent = True
+        if FormInput.get("EventButton") == "EventButton1":
+            MainGame.TextEndEvent = "It has been many years now and suddenly one of the soldiers you send returns home. " \
+                                    "He claims to be the only survivor. But he seems to have gone mad as he explains " \
+                                    "they were beaten by a wooden horse as big as a city. " \
+                                    "Too bad about the soldiers lost though."
+            MainGame.Population = round(MainGame.Population * 0.9)
+        elif FormInput.get("EventButton") == "EventButton2":
+            MainGame.TextEndEvent = "It has been many years now and suddenly the soldiers you send return home. " \
+                                    "They tell stories about a long and boring siege. Which ended when one of the " \
+                                    "generals thought of a crafty trick of building a huge wooden horse. " \
+                                    "You think it is a strange story and you suspect your soldiers of just " \
+                                    "having been on holiday. On the other hand… they have learned some " \
+                                    "very useful military strategies increasing their effectiveness. "
+            MainGame.SoldiersEffectiveness += 5
+            MainGame.Trojan = True
+    elif MainGame.CurrentEvent == "4":
+        MainGame.StartEvent = False
+        MainGame.EndEvent = True
+        if FormInput.get("EventButton") == "EventButton1":
+            MainGame.TextEndEvent = "The codex makes for great reading. It obligates all men to become soldier " \
+                                    "and fight for their king when asked. Also the codex instates punishment for " \
+                                    "all those farmers that neglect their farming duties. The fact that these rules " \
+                                    "have now been written down makes them even more effective."
+            MainGame.Codex = True
+            MainGame.FoodForFarm += 5
+            MainGame.SoldiersEffectiveness += 5
+        elif FormInput.get("EventButton") == "EventButton2":
+            MainGame.TextEndEvent = "You beat off this early attempt at bureaucracy. Everybody in your village " \
+                                    "knows the rules and if not there is always you to tell people what the " \
+                                    "rules are. Sometimes this leads to minor misunderstandings but that " \
+                                    "seems a better option than some boring codex."
+    elif MainGame.CurrentEvent == "5":
+        MainGame.StartEvent = False
+        MainGame.EndEvent = True
+        if FormInput.get("EventButton") == "EventButton1":
+            MainGame.TextEndEvent = "Amazing stuff, turns out that bronze is even better than copper. " \
+                                    "Just adding a little tin to copper creates a sturdy alloy named bronze. " \
+                                    "This will improve the effectiveness of your army greatly."
+            MainGame.Smith = "Bronze"
+            MainGame.SoldiersEffectiveness += 10
+        elif FormInput.get("EventButton") == "EventButton2":
+            MainGame.TextEndEvent = "Nice stuff, clearly better and stronger than you were used to. " \
+                                    "This will improve the effectiveness of your army."
+            MainGame.Smith = "Copper"
+            MainGame.SoldiersEffectiveness += 5
+    elif MainGame.CurrentEvent == "6":
+        MainGame.StartEvent = False
+        MainGame.EndEvent = True
+        if FormInput.get("EventButton") == "EventButton1":
+            MainGame.TextEndEvent = ""
+            MainGame.Writing = ""
+        elif FormInput.get("EventButton") == "EventButton2":
+            MainGame.TextEndEvent = ""
+            MainGame.Writing = ""
+
 
     MainGame.save()
 
@@ -511,6 +637,9 @@ def War():
 
     WarChance = random.randint(1, 5)
 
+    ### Delete after testing
+    WarChance = 1
+
     if WarChance != 1:
         MainGame.save()
         return
@@ -520,12 +649,15 @@ def War():
     OpponentStrength = random.randint(20, 75)
     MainGame.WarOpponentSoldiers = round(MainGame.Population * (OpponentStrength / 100))
 
-    if MainGame.Soldiers >= MainGame.WarOpponentSoldiers:
+    MainGame.SoldiersEffectivenessCurrentYear = MainGame.SoldiersEffectiveness
+    ArmyStrength = MainGame.Soldiers * (MainGame.SoldiersEffectiveness / 100)
+
+    if ArmyStrength >= MainGame.WarOpponentSoldiers:
         MainGame.WarOutcome = "Win"
     else:
         MainGame.WarWon = False
         try:
-            LooseRatio = (MainGame.WarOpponentSoldiers / MainGame.Soldiers) - 1
+            LooseRatio = (MainGame.WarOpponentSoldiers / ArmyStrength) - 1
         except:
             LooseRatio = 2
         if LooseRatio < 0.3:

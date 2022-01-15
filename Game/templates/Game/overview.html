@@ -164,23 +164,27 @@
                 Their leader sits on a horse in front of the troops.<br><br>
 
                 {% if Main.WarOutcome == "Win" %}
-                    But after seeing the size of your <b>{{ Main.Soldiers }}</b> men army the opponent doesn't look so sure anymore.
+                    But after seeing your <b>{{ Main.Soldiers }}</b> soldiers functioning at
+                    <b>{{ Main.SoldiersEffectivenessCurrentYear }}%</b> effectiveness the opponent doesn't look so sure anymore.
                     After a short while chaos breaks out among their ranks and the enemy flees back into the hills.
                     That night a big feast is held in your honor. Your wise choices have prevented armed conflict.
                 {% elif Main.WarOutcome == "Small loss" %}
-                    Your army of <b>{{ Main.Soldiers }}</b> men is just slightly smaller. It results in a <b>small loss</b>.
+                    Your army of <b>{{ Main.Soldiers }}</b> soldiers functioning at <b>{{ Main.SoldiersEffectivenessCurrentYear }}%</b>
+                    effectiveness is just slightly weaker than the enemy. It results in a <b>small loss</b>.
                     To prevent defeat you retreat behind the palisades. The enemy storms your lines but doesn't brake trough.
                     After a while the opponent gives up and retreats. They do take <b>{{ Main.WarFoodLost }}</b> food which
                     was not stored safely in the village. Sadly enough <b>{{ Main.WarPopulationLost }}</b> men are killed. But it could
                     have been so much worse...
                 {% elif Main.WarOutcome == "Significant loss" %}
-                    Your army of <b>{{ Main.Soldiers }}</b> men is just quite a bit smaller. It results in a <b>significant loss</b>.
+                    Your army of <b>{{ Main.Soldiers }}</b> soldiers functioning at <b>{{ Main.SoldiersEffectivenessCurrentYear }}%</b>
+                    effectiveness is weaker than the enemy. It results in a <b>significant loss</b>.
                     After a heavy fight with many casualties you flee from the village and hide in the hills.
                     The enemy takes <b>{{ Main.WarFoodLost }}</b> food which was not hidden well enough. After the enemy soldiers
                     have left you go back to the village.
                     It becomes clear that <b>{{ Main.WarPopulationLost }}</b> people have been killed.
                 {% elif Main.WarOutcome == "Huge loss" %}
-                    Your army of <b>{{ Main.Soldiers }}</b> men is much smaller. It results in a <b>huge loss</b>.
+                    Your army of <b>{{ Main.Soldiers }}</b> soldiers functioning at <b>{{ Main.SoldiersEffectivenessCurrentYear }}%</b>
+                    effectiveness is much weaker than the enemy. It results in a <b>huge loss</b>.
                     After a short but deathly fight you surrender your village.
                     The enemy takes <b>{{ Main.WarFoodLost }}</b> food which is all they can carry. The war has resulted
                     in a horrible massacre, <b>{{ Main.WarPopulationLost }}</b> people have been killed.
@@ -208,6 +212,31 @@
         {% if Main.Sacrifice == True %}
             <b>Regular sacrifice</b><br>
             Every year you sacrifice 1 food per tile to the gods<br><br>
+        {% endif %}
+
+        {% if Main.Writing != "" %}
+            <b>{{ Main.Writing }}</b><br>
+            Your army and food production is more effective because of the use of writing<br><br>
+        {% endif %}
+
+        {% if Main.Pyramid == True %}
+            <b>Pyramid</b><br>
+            You own a large pyramid<br><br>
+        {% endif %}
+
+        {% if Main.Trojan == True %}
+            <b>Trojan experience</b><br>
+            Your army is more effective because of participating in the Trojan war<br><br>
+        {% endif %}
+
+        {% if Main.Codex == True %}
+            <b>Codex</b><br>
+            All rules are written down in the codex. Army and farmers are more effective.<br><br>
+        {% endif %}
+
+        {% if Main.Smith != "" %}
+            <b>{{ Main.Smith }}</b><br>
+            This metal is used to improve soldiers' outfits<br><br>
         {% endif %}
     </div>
 </center>
