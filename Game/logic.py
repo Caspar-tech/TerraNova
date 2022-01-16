@@ -57,6 +57,9 @@ def Newgrid():
     MainGame.Trojan = False
     MainGame.Codex = False
     MainGame.Smith = ""
+    MainGame.Leadership = ""
+    MainGame.Christianity = False
+    MainGame.Wall = False
     MainGame.GameEnded = False
     MainGame.SubmitHighScore = False
     MainGame.War = False
@@ -352,7 +355,7 @@ def StartEvent():
         MainGame.EventList = EventListString
 
         ### DELETE after testing
-        MainGame.CurrentEvent = "5"
+        MainGame.CurrentEvent = "10"
 
         # Now follow the actual events
         if MainGame.CurrentEvent == "1":
@@ -400,9 +403,55 @@ def StartEvent():
             MainGame.EventButton2 = "Copper"
             MainGame.StartEvent = True
         elif MainGame.CurrentEvent == "6":
-            MainGame.TextEvent = ""
-            MainGame.EventButton1 = ""
-            MainGame.EventButton2 = ""
+            MainGame.TextEvent = "You have become aware of a phenomenon called the Olympic games. Once every " \
+                                 "four years your distant neighbours of the Greek city states come together to " \
+                                 "participate in all kinds of tiring activities. These “games” itself don’t " \
+                                 "interest you but they do seem to present a possibility. The closest " \
+                                 "participant - the city of Megara - is left pretty much undefended during " \
+                                 "the games. You could disguise your soldiers and raid the city next time or you " \
+                                 "could ask to participate in the games and maybe make some friends."
+            MainGame.EventButton1 = "Raid Megara"
+            MainGame.EventButton2 = "Ask to participate"
+            MainGame.StartEvent = True
+        elif MainGame.CurrentEvent == "7":
+            MainGame.TextEvent = "Travellers visiting your village tell you about a large empire, called the Roman " \
+                                 "empire, which is at struggle with itself. The empire has long been ruled by a " \
+                                 "group of elected man called the senate. But this so called republic is now " \
+                                 "being threatened by a general who claims himself to be the sole leader of the " \
+                                 "empire. Both forms of government seem interesting, what role do you prefer?"
+            MainGame.EventButton1 = "President of the senate"
+            MainGame.EventButton2 = "Caesar (Emperor)"
+            MainGame.StartEvent = True
+        elif MainGame.CurrentEvent == "8":
+            MainGame.TextEvent = "For as long as you can remember your village has been relying on the local " \
+                                 "shaman for spiritual guidance. On his advice every second full moon you sacrifice " \
+                                 "a hand full of berries to the fire and water gods to prevent natural disaster and " \
+                                 "deceases. Which works okay but still didn’t prevent the floods last year. " \
+                                 "Not along ago a priest came by to announce that Christianity is now the main " \
+                                 "thing in most of the known world. Shall we adopt Christianity or stick with " \
+                                 "the shaman?"
+            MainGame.EventButton1 = "Shaman"
+            MainGame.EventButton2 = "Christianity"
+            MainGame.StartEvent = True
+        elif MainGame.CurrentEvent == "9":
+            MainGame.TextEvent = "One day in the middle of the day one of the farmers comes running into the village. " \
+                                 "A huge army is slowly passing by his farm. He overheard the soldiers speaking " \
+                                 "of an Alexander the Great invading foreign places like Egypt and India. " \
+                                 "Shall we hide in the village and pretend we are not there or invite this " \
+                                 "Alexander over for dinner?"
+            MainGame.EventButton1 = "Hide in the village"
+            MainGame.EventButton2 = "Invite Alexander"
+            MainGame.StartEvent = True
+        elif MainGame.CurrentEvent == "10":
+            MainGame.TextEvent = "A merchant by the name of Lu Buwei visits your village for a stay overnight " \
+                                 "during his travel. He works for a mighty emperor named Qin Shi Huang. He claims " \
+                                 "that this emperor has build a wall which – if it were to exist – could be seen by " \
+                                 "an eye high up in in the sky. Although crazy expensive it works really well " \
+                                 "for protecting his kingdom against enemies. The merchant is willing to help you " \
+                                 "build a similar wall around your village, but it wont be cheap. " \
+                                 "You estimate it will cost your around 90% of your food."
+            MainGame.EventButton1 = "Build wall"
+            MainGame.EventButton2 = "Don't build wall"
             MainGame.StartEvent = True
 
     MainGame.save()
@@ -540,12 +589,73 @@ def EndEvent(FormInput):
         MainGame.StartEvent = False
         MainGame.EndEvent = True
         if FormInput.get("EventButton") == "EventButton1":
-            MainGame.TextEndEvent = ""
-            MainGame.Writing = ""
+            MainGame.TextEndEvent = "The raid was a succes although there wasn't much to steal. " \
+                                    "But apparently you have broken the ekecheiria which is a truce between all " \
+                                    "participants in the Olympic games. The city states don’t take it lightly and " \
+                                    "before you know it an impressive army arrives at your village. So much for your " \
+                                    "soldiers disguising skills. You quickly pay a fine in the form of food " \
+                                    "and - volunteers - to prevent annihilation."
+            MainGame.Population = round(MainGame.Population * 0.8)
+            MainGame.Food = round(MainGame.Food * 0.8)
         elif FormInput.get("EventButton") == "EventButton2":
-            MainGame.TextEndEvent = ""
-            MainGame.Writing = ""
-
+            MainGame.TextEndEvent = "The city states let your participate but it turns out your villagers are not " \
+                                    "very athletic. With a 13th place in apene (mull cart racing) and 27th place " \
+                                    "in pale (nude wrestling) being your best notations you become the laughing " \
+                                    "stock of the participants."
+    elif MainGame.CurrentEvent == "7":
+        MainGame.StartEvent = False
+        MainGame.EndEvent = True
+        if FormInput.get("EventButton") == "EventButton1":
+            MainGame.TextEndEvent = "The people working the land feel represented by the elected senate. They are " \
+                                    "motivated to work even harder. Better not tell them you fill out the election " \
+                                    "results beforehand."
+            MainGame.Leadership = "Republic"
+            MainGame.FoodForFarm += 5
+        elif FormInput.get("EventButton") == "EventButton2":
+            MainGame.TextEndEvent = "You soldiers feel motivated by the strong leader governing their village. " \
+                                    "Your aura of power shines on them. Just make sure they don’t expect you to " \
+                                    "actually lead them into battle."
+            MainGame.Leadership = "Emperor"
+            MainGame.SoldiersEffectiveness += 5
+    elif MainGame.CurrentEvent == "8":
+        MainGame.StartEvent = False
+        MainGame.EndEvent = True
+        if FormInput.get("EventButton") == "EventButton1":
+            MainGame.TextEndEvent = "If you do what you did, you get what you got. Keep on sacrificing those berries."
+        elif FormInput.get("EventButton") == "EventButton2":
+            MainGame.TextEndEvent = "It took a while to get used to it but now all the villagers know what is " \
+                                    "expected to keep the gods… uh god… happy. Ritual sacrifice is not needed " \
+                                    "anymore. There is just one thing. Nobody is allowed to work anymore on " \
+                                    "Sundays. That doesn’t help productivity."
+            MainGame.Sacrifice = False
+            MainGame.Christianity = True
+            MainGame.FoodForFarm -= 5
+    elif MainGame.CurrentEvent == "9":
+            MainGame.StartEvent = False
+            MainGame.EndEvent = True
+            if FormInput.get("EventButton") == "EventButton1":
+                MainGame.TextEndEvent = "After almost a day the army finally passed by. They didn’t notice or did " \
+                                        "not care about your village. A little bit of food has disappeared but " \
+                                        "nothing large. You wonder if you missed out on adventure or misfortune."
+                MainGame.Food = round(MainGame.Food * 0.9)
+            elif FormInput.get("EventButton") == "EventButton2":
+                MainGame.TextEndEvent = "You walk towards the passing army and ask to speak to their leader. " \
+                                        "Sadly enough you are just laughed at. Even worse one of the lower leaders " \
+                                        "demands food for his soldiers. It is clear that if you don’t volunteer " \
+                                        "the food you will loose it anyway. Maybe you should have hidden in the " \
+                                        "village after all?"
+                MainGame.Food = round(MainGame.Food * 0.5)
+    elif MainGame.CurrentEvent == "10":
+            MainGame.StartEvent = False
+            MainGame.EndEvent = True
+            if FormInput.get("EventButton") == "EventButton1":
+                MainGame.TextEndEvent = "It really was a though job but with the expertise of the merchant the wall " \
+                                        "now stands. This greatly increases the effectiveness of your army."
+                MainGame.Food = round(MainGame.Food * 0.1)
+                MainGame.SoldiersEffectiveness += 10
+                MainGame.Wall = True
+            elif FormInput.get("EventButton") == "EventButton2":
+                MainGame.TextEndEvent = "The wall would have totally spoiled the view from your house anyway."
 
     MainGame.save()
 

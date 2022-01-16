@@ -238,6 +238,25 @@
             <b>{{ Main.Smith }}</b><br>
             This metal is used to improve soldiers' outfits<br><br>
         {% endif %}
+
+        {% if Main.Leadership == "Republic" %}
+            <b>{{ Main.Leadership }}</b><br>
+            Motivated by feeling heard your farmers work harder<br><br>
+        {% elif Main.Leadership == "Emperor" %}
+            <b>{{ Main.Leadership }}</b><br>
+            Motivated by strong leadership your soldiers fight harder<br><br>
+        {% endif %}
+
+        {% if Main.Christianity == True %}
+            <b>Christianity</b><br>
+            Not working on Sundays decreases your farmers productivity<br><br>
+        {% endif %}
+
+        {% if Main.Wall == True %}
+            <b>A great wall</b><br>
+            The wall around your village greatly increases your armies defensive strength<br><br>
+        {% endif %}
+
     </div>
 </center>
 
