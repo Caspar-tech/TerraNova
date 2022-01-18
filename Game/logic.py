@@ -338,9 +338,7 @@ def StartEvent():
             return
 
         if random.randint(1, 5) != 1:
-            ### DELETE after testing
-            # return
-            pass
+            return
 
         EventList = (MainGame.EventList).split("-")
 
@@ -353,9 +351,6 @@ def StartEvent():
         EventListString = EventListString[:-1]
 
         MainGame.EventList = EventListString
-
-        ### DELETE after testing
-        MainGame.CurrentEvent = "10"
 
         # Now follow the actual events
         if MainGame.CurrentEvent == "1":
@@ -741,7 +736,7 @@ def War():
     MainGame = Main.objects.get(Name="Game")
     MainGame.War = False
 
-    if MainGame.Phase == 1:
+    if MainGame.Year < 11:
         MainGame.save()
         return
 
