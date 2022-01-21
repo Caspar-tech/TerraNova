@@ -329,6 +329,17 @@ def StartEvent():
             MainGame.SubmitHighscore = True
         else:
             MainGame.Phase += 1
+            MainGame.save()
+            Infobox("From now on before being able to proceed to the next year you need to set the occupation of "
+                    "your villagers. Farmers on farms produce food. Soldiers defend your village in case of war. And "
+                    "every two idle villagers will help increase your population by one.")
+            Infobox("You have developed the knowledge needed to build farms. You can only build farms on grassland "
+                    "and they cost 50 food. For a farm to be effective you need at least 25 farmers working the "
+                    "field. Having too little farmers quickly decreases effectiveness.")
+            Infobox("You can now see the current population of your village. At the end of the year all people in "
+                    "your village will eat 1 food. Insufficient food will lead to starvation.")
+            MainGame = Main.objects.get(Name="Game")
+
 
     if MainGame.Year > 10:
 
@@ -741,9 +752,6 @@ def War():
         return
 
     WarChance = random.randint(1, 5)
-
-    ### Delete after testing
-    WarChance = 1
 
     if WarChance != 1:
         MainGame.save()
