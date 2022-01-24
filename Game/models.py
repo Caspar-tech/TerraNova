@@ -78,7 +78,8 @@ class Main(models.Model):
 
 class Highscore(models.Model):
     Name = models.TextField(default="Anonymous")
-    Food = models.IntegerField(default=0)
+    Score = models.IntegerField(default=0)
+    Phase = models.TextField(default="Phase 1")
 
     def __str__(self):
         return str(self.Name)

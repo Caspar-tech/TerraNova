@@ -40,6 +40,7 @@ def Newgrid():
     MainGame.FoodForGrass = 4
     MainGame.FoodForWater = 9
     MainGame.FoodForFarm = 50
+    MainGame.NumberOfFarmTiles = 0
     MainGame.FarmEffectiveness = 0
     MainGame.StartEvent = False
     MainGame.EndEvent = False
@@ -292,7 +293,7 @@ def NextYear():
 
     StartEvent()
 
-    # After the year is rounded up, there is the possibility of a war (phase > 0)
+    # After the year is rounded up, there is the possibility of a war (phase > 1)
     War()
 
 def StartEvent():
@@ -340,15 +341,14 @@ def StartEvent():
                     "your village will eat 1 food. Insufficient food will lead to starvation.")
             MainGame = Main.objects.get(Name="Game")
 
-
-    if MainGame.Year > 10:
+    if MainGame.Year > 10 and MainGame.Year < 80 :
 
         # 1 in 5 times we pick one of the events that has not happened yet.
         # Make from a textfield in the model a list and than reverse again
         if MainGame.EventList == "":
             return
 
-        if random.randint(1, 5) != 1:
+        if random.randint(1, 8) != 1:
             return
 
         EventList = (MainGame.EventList).split("-")
@@ -459,6 +459,13 @@ def StartEvent():
             MainGame.EventButton1 = "Build wall"
             MainGame.EventButton2 = "Don't build wall"
             MainGame.StartEvent = True
+
+    if MainGame.Year == 80:
+        if MainGame.Phase == 3:
+            return
+
+        MainGame.GameEnded = True
+        MainGame.SubmitHighscore = True
 
     MainGame.save()
 
@@ -669,9 +676,14 @@ def SetNewHighscore(FormInput):
     MainGame = Main.objects.get(Name="Game")
 
     Name = FormInput.get("Name")
-    Food = MainGame.Food
+    Phase = "Phase " + str(MainGame.Phase)
 
-    Highscore.objects.create(Name=Name, Food=Food)
+    if MainGame.Phase == 1:
+        Score = MainGame.Food
+    elif MainGame.Phase == 2:
+        Score = MainGame.Population
+
+    Highscore.objects.create(Name=Name, Score=Score, Phase=Phase)
 
     MainGame.SubmitHighscore = False
 

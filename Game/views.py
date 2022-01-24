@@ -114,7 +114,7 @@ class EndView(ListView):
         # Call the base implementation first to get a context
         context = super().get_context_data(**kwargs)
         context['Main'] = Main.objects.get(Name="Game")
-        context['Highscore'] = Highscore.objects.all().order_by("-Food")
+        context['Highscore'] = Highscore.objects.all().order_by("-Phase", "-Score")
         return context
 
     def post(self, request, *args, **kwargs):

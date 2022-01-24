@@ -38,10 +38,16 @@
         {% if Main.GameEnded == False %}
             <div class="HeaderOverview"> Keep on playing the game has not ended yet</div><br>
             <div class="Center">Go back to the <a href="/">World Map</a></div>
-        {% else %}
-            <div class="HeaderOverview"> The game has ended </div><br><hr><br>
-            <div class="Center"> As the high priest predicted great droughts have struck the world</div><br>
-            <div class="Center"> Sadly enough you didn't gather enough food (minimal 500), your tribe did not survive the drought!</div><br>
+        {% elif Main.GameEnded == True %}
+            {% if Main.Phase == 1 %}
+                <div class="HeaderOverview"> The game has ended </div><br><hr><br>
+                <div class="Center"> As the high priest predicted great droughts have struck the world</div><br>
+                <div class="Center"> Sadly enough you didn't gather enough food (minimal 500), your tribe did not survive the drought!</div><br>
+            {% elif Main.Phase == 2 %}
+                <div class="HeaderOverview"> The game has ended </div><br><hr><br>
+                <div class="Center"> Other villages increased their population much faster than your village.
+                                    If you had an army of 10.000 before year 80 you might have made it.</div><br>
+            {% endif %}
 
             <form method="POST">
                 {% csrf_token %}
@@ -70,7 +76,8 @@
                 {% for r in Highscore %}
                     <tr>
                         <td>{{ r.Name }}</td>
-                        <td>{{ r.Food }}</td>
+                        <td>{{ r.Score }}</td>
+                        <td>{{ r.Phase }}</td>
                     </tr>
                 {% endfor %}
             </table>
