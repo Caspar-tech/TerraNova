@@ -341,7 +341,12 @@ def StartEvent():
                     "your village will eat 1 food. Insufficient food will lead to starvation.")
             MainGame = Main.objects.get(Name="Game")
 
-    if MainGame.Year > 10 and MainGame.Year < 80 :
+    if MainGame.Soldiers > 9999:
+        MainGame.Phase = 3
+        MainGame.GameEnded = True
+        MainGame.SubmitHighscore = True
+
+    if MainGame.Year > 10 and MainGame.Year < 80 and MainGame.Phase == 2:
 
         # 1 in 5 times we pick one of the events that has not happened yet.
         # Make from a textfield in the model a list and than reverse again
@@ -682,6 +687,8 @@ def SetNewHighscore(FormInput):
         Score = MainGame.Food
     elif MainGame.Phase == 2:
         Score = MainGame.Population
+    elif MainGame.Phase == 3:
+        Score = MainGame.Soldiers
 
     Highscore.objects.create(Name=Name, Score=Score, Phase=Phase)
 
