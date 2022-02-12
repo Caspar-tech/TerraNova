@@ -72,6 +72,7 @@ class Main(models.Model):
     WarFoodLost = models.IntegerField(default=0)
     WarPopulationLost = models.IntegerField(default=0)
     WarTilesLost = models.IntegerField(default=0)
+    TestMode = models.BooleanField(default=False)
 
     def __str__(self):
         return str(self.Name)
