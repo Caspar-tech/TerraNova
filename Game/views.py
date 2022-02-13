@@ -124,3 +124,17 @@ class EndView(ListView):
         elif request.POST.get('Submit Highscore') == 'Submit Highscore':
             SetNewHighscore(request.POST)
         return super().get(request, *args, **kwargs)
+
+class ResetView(ListView):
+    model = Square
+    template_name = "Game/reset.html"
+    context_object_name = "Square"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+    def post(self, request, *args, **kwargs):
+        if request.POST.get('Reset') == 'Reset':
+            Newgrid()
+        return super().get(request, *args, **kwargs)

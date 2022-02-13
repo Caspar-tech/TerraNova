@@ -6,6 +6,7 @@ urlpatterns = [
         path('', user_views.MainView.as_view(), name='main'),
         path('overview/', user_views.OverviewView.as_view(), name='overview'),
         path('end/', user_views.EndView.as_view(), name='end'),
+        path('reset/', user_views.ResetView.as_view(), name='reset'),
         path('login/', auth_views.LoginView.as_view(template_name='Game/login.html'), name='login'),
         path('logout/', auth_views.LogoutView.as_view(template_name='Game/logout.html'), name='logout'),
 ]
