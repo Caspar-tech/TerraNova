@@ -13,6 +13,7 @@ from .logic import (
     Save,
     Load,
     SetOccupations,
+    Reset,
 )
 
 # Main-page render function
@@ -136,5 +137,6 @@ class ResetView(ListView):
 
     def post(self, request, *args, **kwargs):
         if request.POST.get('Reset') == 'Reset':
+            Reset()
             Newgrid()
         return super().get(request, *args, **kwargs)

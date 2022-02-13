@@ -818,3 +818,8 @@ def War():
         MainGame.Population -= MainGame.WarPopulationLost
 
     MainGame.save()
+
+def Reset():
+    Square.objects.all().delete()
+    Main.objects.all().delete()
+    Main.objects.create(Name="Game")
